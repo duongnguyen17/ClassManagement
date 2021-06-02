@@ -1,10 +1,10 @@
 //in ra thẻ thông tin người
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
 import TagInfor from '../components/TagInfor';
 const TagUser = props => {
+  const {userInfor, isEdit, onLongPress} = props;
 
-  const {userInfor, isEdit, showModal} = props
   return (
     <TouchableOpacity
       style={[
@@ -13,28 +13,49 @@ const TagUser = props => {
       ]}
       disabled={isEdit}
       onLongPress={() => {
-        showModal(userInfor);
+        onLongPress(userInfor);
       }}>
-      <TouchableOpacity
-        disabled={isEdit}
-        style={{
-          width: 60,
-          height: 80,
-          borderRadius: 5,
-          borderWidth: 1,
-          borderColor: '#4d94ff',
-          marginHorizontal: 10,
-          marginVertical: 20,
-        }}>
-        <Image
+      {isEdit ? (
+        <TouchableOpacity
           style={{
             width: 60,
             height: 80,
             borderRadius: 5,
-          }}
-          source={{uri: userInfor.avatar}}
-        />
-      </TouchableOpacity>
+            borderWidth: 1,
+            borderColor: '#4d94ff',
+            marginHorizontal: 10,
+            marginVertical: 20,
+          }}>
+          <Image
+            style={{
+              width: 60,
+              height: 80,
+              borderRadius: 5,
+            }}
+            source={{uri: userInfor.avatar}}
+          />
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={{
+            width: 60,
+            height: 80,
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: '#4d94ff',
+            marginHorizontal: 10,
+            marginVertical: 20,
+          }}>
+          <Image
+            style={{
+              width: 60,
+              height: 80,
+              borderRadius: 5,
+            }}
+            source={{uri: userInfor.avatar}}
+          />
+        </View>
+      )}
 
       <View
         style={{
@@ -43,8 +64,13 @@ const TagUser = props => {
           marginVertical: 10,
           flexDirection: 'column',
         }}>
-        <TagInfor title={'Họ tên'} content={userInfor.name} isEdit={isEdit} />
-        <TagInfor title={'SĐT'} content={userInfor.phoneNumber} isEdit={isEdit} />
+        <TagInfor title={'Họ tên'} content={userInfor.name} />
+        {userInfor.class == '' || userInfor.class == null ? null : (
+          <TagInfor title={'Lớp'} content={userInfor.class} />
+        )}
+        {userInfor.phoneNumber == '' || userInfor.phoneNumber == null ? null : (
+          <TagInfor title={'SĐT'} content={userInfor.phoneNumber} />
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -52,6 +78,7 @@ const TagUser = props => {
 export default TagUser;
 const styles = StyleSheet.create({
   tag: {
+    width: '100%',
     marginHorizontal: 5,
     backgroundColor: '#fff',
     borderRadius: 5,
@@ -63,7 +90,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 4,
-    elevation: 3,
-    marginVertical: 2,
+    elevation: 1,
   },
 });

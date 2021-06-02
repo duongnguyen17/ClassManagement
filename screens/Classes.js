@@ -6,9 +6,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import TagInfor from '../components/TagInfor';
+
 import TagClass from '../components/TagClass';
-const Classes = () => {
+const Classes = props => {
   const [classes, setClasses] = useState([
     {
       name: '12A4',
@@ -21,13 +21,21 @@ const Classes = () => {
       teacher: 'Nguyễn Văn Vũ',
     },
   ]);
+  const gotoClass = (classId, className) => {
+    props.navigation.navigate('Class', {_id: classId, name: className});
+  };
+  const showModal = data => {};
   return (
     <SafeAreaView>
       <ScrollView>
         {classes.map((value, index) => (
-          <TouchableOpacity key={index}>
-            <View><TagClass/></View>
-          </TouchableOpacity>
+          <TagClass
+            key={index}
+            inforClass={value}
+            onPress={gotoClass}
+            isEdit={false}
+            onLongPress={showModal}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>

@@ -2,9 +2,8 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput} from 'react-native';
 const TagInfor = props => {
-  const [title, setTitle] = useState(props.title);
-  const [content, setContent] = useState(props.content);
-  const [isEdit, setIsEdit] = useState(props.isEdit);
+  const {content, title, isEdit} = props;
+
   return (
     <View
       style={{
@@ -20,8 +19,12 @@ const TagInfor = props => {
         {isEdit ? (
           <TextInput
             style={{fontWeight: '600', fontSize: 18}}
-            defaultValue={content}
+            //defaultValue={content}
+            value={content}
             style={{borderBottomWidth: 1, borderColor: 'gray', width: 200}}
+            onChangeText={text => {
+              setContent(text);
+            }}
           />
         ) : (
           <Text style={{fontWeight: '600', fontSize: 18}}>{content}</Text>

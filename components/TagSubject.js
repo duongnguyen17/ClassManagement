@@ -4,7 +4,7 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
 import TagInfor from '../components/TagInfor';
 const TagSubject = props => {
-  const {user} = props;
+  const {inforSubject} = props;
   return (
     <TouchableOpacity
       style={[

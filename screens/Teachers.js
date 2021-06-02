@@ -49,7 +49,9 @@ const Teachers = props => {
       phoneNumber: '0393072748',
     },
   ]);
+  
   const showModal = data => {
+    //console.log(`data`, data);
     setDataEdit(data);
     setIsShow(true);
   };
@@ -63,14 +65,14 @@ const Teachers = props => {
             userInfor={value}
             key={index}
             isEdit={false}
-            showModal={showModal}
+            onLongPress={showModal}
           />
         ))}
       </ScrollView>
       <TouchableOpacity
         style={{
           position: 'absolute',
-          bottom: '10%',
+          bottom: '5%',
           right: 20,
           backgroundColor: '#fff',
           borderRadius: 50,
@@ -95,7 +97,7 @@ const Teachers = props => {
             }}
           />
           <View style={{backgroundColor: '#f2f2f2', width: '100%'}}>
-            <TagUser user={dataEdit} isEdit={true} />
+            <TagUser userInfor={dataEdit} isEdit={true} />
             <View
               style={{
                 flexDirection: 'row',

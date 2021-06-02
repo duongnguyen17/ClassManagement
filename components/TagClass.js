@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
 import TagInfor from '../components/TagInfor';
 const TagClass = props => {
-  const {inforClass, isEdit, showModal} = props
+  const {inforClass, isEdit, onLongPress, onPress} = props;
 
   return (
     <TouchableOpacity
@@ -13,28 +13,52 @@ const TagClass = props => {
       ]}
       disabled={isEdit}
       onLongPress={() => {
-        showModal(inforClass);
+        onLongPress(inforClass);
+      }}
+      onPress={() => {
+        onPress(inforClass._id, inforClass.name);
       }}>
-      <TouchableOpacity
-        disabled={isEdit}
-        style={{
-          width: 60,
-          height: 80,
-          borderRadius: 5,
-          borderWidth: 1,
-          borderColor: '#4d94ff',
-          marginHorizontal: 10,
-          marginVertical: 20,
-        }}>
-        <Image
+      {isEdit ? (
+        <TouchableOpacity
           style={{
-            width: 60,
-            height: 80,
-            borderRadius: 5,
-          }}
-         // source={{uri: avatar}}
-        />
-      </TouchableOpacity>
+            width: 70,
+            height: 70,
+            borderRadius: 70,
+            borderWidth: 1,
+            borderColor: '#4d94ff',
+            marginHorizontal: 10,
+            marginVertical: 20,
+          }}>
+          <Image
+            style={{
+              width: 70,
+              height: 70,
+              borderRadius: 70,
+            }}
+            // source={{uri: avatar}}
+          />
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={{
+            width: 70,
+            height: 70,
+            borderRadius: 70,
+            borderWidth: 1,
+            borderColor: '#4d94ff',
+            marginHorizontal: 10,
+            marginVertical: 20,
+          }}>
+          <Image
+            style={{
+              width: 70,
+              height: 70,
+              borderRadius: 70,
+            }}
+            // source={{uri: avatar}}
+          />
+        </View>
+      )}
 
       <View
         style={{

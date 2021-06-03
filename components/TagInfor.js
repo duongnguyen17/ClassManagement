@@ -22,9 +22,7 @@ const TagInfor = props => {
             //defaultValue={content}
             value={content}
             style={{borderBottomWidth: 1, borderColor: 'gray', width: 200}}
-            onChangeText={text => {
-              setContent(text);
-            }}
+            onChangeText={text => {}}
           />
         ) : (
           <Text style={{fontWeight: '600', fontSize: 18}}>{content}</Text>

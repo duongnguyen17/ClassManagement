@@ -17,6 +17,7 @@ const MainStack = createStackNavigator();
 const TabBar = () => {
   return (
     <Tab.Navigator
+      initialRouteName={'Classes'}
       tabBarOptions={{
         activeTintColor: '#3399ff',
         inactiveTintColor: '#222222',
@@ -86,8 +87,10 @@ const App = () => {
           component={Class}
           options={({route}) => ({
             title: route.params.name,
+            headerStatusBarHeight: -15,
           })}
         />
+
       </MainStack.Navigator>
     </NavigationContainer>
   );

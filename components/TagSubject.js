@@ -4,13 +4,10 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
 import TagInfor from '../components/TagInfor';
 const TagSubject = props => {
-  const {inforSubject} = props;
+  const {subjectInfor} = props;
   return (
     <TouchableOpacity
-      style={[
-        styles.tag,
-        {flexDirection: 'row', marginVertical: 5, alignItems: 'center'},
-      ]}>
+      style={[styles.tag, {flexDirection: 'row', alignItems: 'center'}]}>
       <Image
         style={{
           width: 60,
@@ -19,9 +16,9 @@ const TagSubject = props => {
           borderWidth: 1,
           borderColor: '#4d94ff',
           marginHorizontal: 10,
-          marginVertical: 20,
+          marginVertical: 10,
         }}
-        source={{uri: user.avatar}}
+        // source={{uri: subjectInfor.avatar}}
       />
       <View
         style={{
@@ -30,13 +27,9 @@ const TagSubject = props => {
           marginVertical: 10,
           flexDirection: 'column',
         }}>
-        <TagInfor title={'Họ tên'} content={user.name} />
-        {user.class == '' || user.class == null ? null : (
-          <TagInfor title={'Lớp'} content={user.class} />
-        )}
-        {user.phoneNumber == '' || user.phoneNumber == null ? null : (
-          <TagInfor title={'SĐT'} content={user.phoneNumber} />
-        )}
+        <Text style={{fontSize: 18, fontWeight: '600'}}>
+          {subjectInfor.name}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -56,6 +49,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 5,
-    marginVertical: 2,
   },
 });

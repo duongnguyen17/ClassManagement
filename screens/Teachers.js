@@ -56,7 +56,7 @@ const Teachers = props => {
     setIsShow(true);
   };
   const editUser = () => {};
-  const deleteUser = () => {};
+  const deleteUser =  () => {};
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{marginVertical: 10, flex: 1}}>

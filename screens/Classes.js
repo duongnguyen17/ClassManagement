@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import TagClass from '../components/TagClass';
 const Classes = props => {
@@ -26,8 +27,8 @@ const Classes = props => {
   };
   const showModal = data => {};
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
         {classes.map((value, index) => (
           <TagClass
             key={index}
@@ -38,6 +39,19 @@ const Classes = props => {
           />
         ))}
       </ScrollView>
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          bottom: '5%',
+          right: 20,
+          backgroundColor: '#fff',
+          borderRadius: 50,
+          width: 50,
+          height: 50,
+        }}
+        onPress={() => {}}>
+        <MaterialIcons name="add-circle-outline" size={50} color="#0066ff" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

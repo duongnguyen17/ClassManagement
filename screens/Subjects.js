@@ -1,19 +1,33 @@
 import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, View, Text} from 'react-native';
-
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import TagSubject from '../components/TagSubject';
 const Subjects = () => {
   const [subjects, setSubjects] = useState([
-    'Sinh học 12',
-    'Toán 10',
-    'Vật Lý 11',
+    {
+      name: 'Sinh học 12 - Nâng Cao',
+      avatar: 'sh12_nc.jpg',
+    },
+    {
+      name: 'Hình Học 10 - Nâng cao',
+      avatar: 'hh10_nc.jpg',
+    },
+    {
+      name: 'Đại Số 11',
+      avatar: 'ds11.jpg',
+    },
   ]);
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView style={{flex: 1, marginTop: 10}}>
         {subjects.map((value, index) => (
-          <View key={index}>
-            <Text>{value}</Text>
-          </View>
+          <TagSubject key={index} subjectInfor={value} />
         ))}
       </ScrollView>
     </SafeAreaView>

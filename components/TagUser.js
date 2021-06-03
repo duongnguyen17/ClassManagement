@@ -7,10 +7,7 @@ const TagUser = props => {
 
   return (
     <TouchableOpacity
-      style={[
-        styles.tag,
-        {flexDirection: 'row', marginVertical: 5, alignItems: 'center'},
-      ]}
+      style={[styles.tag, {flexDirection: 'row', alignItems: 'center'}]}
       disabled={isEdit}
       onLongPress={() => {
         onLongPress(userInfor);
@@ -64,13 +61,16 @@ const TagUser = props => {
           marginVertical: 10,
           flexDirection: 'column',
         }}>
-        <TagInfor title={'Họ tên'} content={userInfor.name} />
+        <TagInfor title={'Họ tên'} content={userInfor.name} isEdit={isEdit} />
         {userInfor.class == '' || userInfor.class == null ? null : (
-          <TagInfor title={'Lớp'} content={userInfor.class} />
+          <TagInfor title={'Lớp'} content={userInfor.class} isEdit={isEdit} />
         )}
-        {userInfor.phoneNumber == '' || userInfor.phoneNumber == null ? null : (
-          <TagInfor title={'SĐT'} content={userInfor.phoneNumber} />
-        )}
+
+        <TagInfor
+          title={'SĐT'}
+          content={userInfor.phoneNumber}
+          isEdit={isEdit}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: '#fff',
     borderRadius: 5,
-    marginVertical: 3,
+    marginVertical: 2,
     shadowColor: '#595959',
     shadowOffset: {
       width: 0,

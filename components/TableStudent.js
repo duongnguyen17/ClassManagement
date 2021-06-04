@@ -5,7 +5,7 @@ import TagName from './TagName';
 const TableStudent = props => {
   const {students} = props;
   return (
-    <View style={{marginTop: 20, width: '100%'}}>
+    <View style={{marginTop: 10, width: '100%', alignItems: 'center'}}>
       <View
         style={{
           flexDirection: 'row',

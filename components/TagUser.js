@@ -4,7 +4,7 @@ import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
 import TagInfor from '../components/TagInfor';
 const TagUser = props => {
   const {userInfor, isEdit, onLongPress} = props;
-
+  //console.log(`userInfor`, userInfor);
   return (
     <TouchableOpacity
       style={[styles.tag, {flexDirection: 'row', alignItems: 'center'}]}
@@ -78,7 +78,6 @@ const TagUser = props => {
 export default TagUser;
 const styles = StyleSheet.create({
   tag: {
-    width: '100%',
     marginHorizontal: 5,
     backgroundColor: '#fff',
     borderRadius: 5,

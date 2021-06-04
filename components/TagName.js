@@ -32,6 +32,7 @@ const TagName = props => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 45,
+        width: '98%',
         borderTopWidth: 0.5,
         borderColor: 'black',
         alignItems: 'center',

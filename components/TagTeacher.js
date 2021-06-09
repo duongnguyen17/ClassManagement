@@ -1,22 +1,22 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Image, Text} from 'react-native';
 import Swipeout from 'react-native-swipeout';
-const TagClass = props => {
-  const {classData, onPressItem, editClass, deleteClass} = props;
-  //console.log(`classData`, classData);
+const TagTeacher = props => {
+  const {userInfor, onPressItem, editUser, deleteUser} = props;
+
   return (
     <Swipeout
       right={[
         {
           text: 'Edit',
           onPress: () => {
-            editClass(classData);
+            editUser(userInfor);
           },
         },
         {
           text: 'Delete',
           onPress: () => {
-            deleteClass(classData);
+            deleteUser(userInfor);
           },
         },
       ]}
@@ -24,11 +24,35 @@ const TagClass = props => {
       style={{backgroundColor: '#f2f2f2'}}>
       <TouchableOpacity
         activeOpacity={0.8}
-        style={[styles.tag]}
+        style={[styles.tag, {flexDirection: 'row', alignItems: 'center'}]}
         onPress={onPressItem}>
         <View
           style={{
+            width: 60,
+            height: 80,
+            borderRadius: 5,
             marginHorizontal: 10,
+            marginVertical: 20,
+          }}>
+          <Image
+            style={{
+              width: 60,
+              height: 80,
+              borderRadius: 5,
+            }}
+            source={
+              userInfor.avatar === undefined ||
+              userInfor.avatar === '' ||
+              userInfor.avatar === null
+                ? require('../assets/teacher.jpg')
+                : {uri: userInfor.avatar}
+            }
+          />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            marginHorizontal: 25,
             marginVertical: 10,
             flexDirection: 'column',
           }}>
@@ -40,10 +64,10 @@ const TagClass = props => {
               justifyContent: 'space-between',
             }}>
             <View>
-              <Text style={{fontWeight: '600'}}>Lớp: </Text>
+              <Text style={{fontWeight: '600'}}>Họ tên: </Text>
             </View>
             <Text style={{fontWeight: '600', fontSize: 18}}>
-              {classData.name}
+              {userInfor.name}
             </Text>
           </View>
           <View
@@ -54,27 +78,11 @@ const TagClass = props => {
               justifyContent: 'space-between',
             }}>
             <View>
-              <Text style={{fontWeight: '600'}}>Khoá: </Text>
+              <Text style={{fontWeight: '600'}}>SĐT: </Text>
             </View>
             <View>
               <Text style={{fontWeight: '600', fontSize: 18}}>
-                {classData.year}
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 5,
-              justifyContent: 'space-between',
-            }}>
-            <View>
-              <Text style={{fontWeight: '600'}}>GVCN: </Text>
-            </View>
-            <View>
-              <Text style={{fontWeight: '600', fontSize: 18}}>
-                {classData.teacher.name}
+                {userInfor.phoneNumber}
               </Text>
             </View>
           </View>
@@ -83,7 +91,7 @@ const TagClass = props => {
     </Swipeout>
   );
 };
-export default TagClass;
+export default TagTeacher;
 const styles = StyleSheet.create({
   tag: {
     marginHorizontal: 5,

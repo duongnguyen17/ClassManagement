@@ -1,44 +1,88 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
   Text,
   View,
+  FlatList,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import {getAllClass, addClass, editClass, deleteClass} from '../realm';
 import TagClass from '../components/TagClass';
+import PopupClass from '../components/PopupClass';
+import ReAskPopup from '../components/ReAskPopup';
 const Classes = props => {
-  const [classes, setClasses] = useState([
-    {
-      name: '12A4',
-      year: '2014-2017',
-      teacher: 'Nguyễn Văn Duy',
-    },
-    {
-      name: '12A2',
-      year: '2014-2017',
-      teacher: 'Nguyễn Văn Vũ',
-    },
-  ]);
-  const gotoClass = (classId, className) => {
-    props.navigation.navigate('Class', {_id: classId, name: className});
+  const [isEdit, setIsEdit] = useState(false);
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const [isShowAsk, setIsShowAsk] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
+  const [classes, setClasses] = useState([]);
+
+  useEffect(() => {
+    getClasses();
+  }, []);
+
+  //lấy danh sách lớp học
+  const getClasses = async () => {
+    const allClasses = await getAllClass();
+    //console.log(`allClasses`, allClasses);
+    setClasses(allClasses);
   };
-  const showModal = data => {};
+  //thêm lớp học
+  const m_addClass = async classData => {
+    const newClass = {
+      _id: Math.floor(Date.now() / 1000),
+      name: classData.name,
+      year: classData.year,
+      teacher: classData.teacher,
+    };
+    await addClass(newClass);
+    setIsShowPopup(false);
+  };
+  //show edit
+  const edit = classData => {
+    setIsEdit(true);
+    setDataEdit(classData);
+    setIsShowPopup(true);
+  };
+  //show del
+  const del = classData => {
+    setIsShowAsk(true);
+    setDataEdit(classData);
+  };
+  // edit class
+  const m_editClass = async classData => {
+    await editClass(classData);
+    setIsShowPopup(false);
+  };
+
+  //delete class
+  const m_deleteClass = async () => {
+    await deleteClass(dataEdit);
+    setDataEdit({});
+    setIsShowAsk(false);
+  };
+  // const gotoClass = (classId, className) => {
+  //   props.navigation.navigate('Class', {_id: classId, name: className});
+  // };
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView style={{flex: 1}}>
-        {classes.map((value, index) => (
+      <FlatList
+        style={{marginVertical: 10, flex: 1}}
+        data={classes}
+        renderItem={({item, index}) => (
           <TagClass
-            key={index}
-            inforClass={value}
-            onPress={gotoClass}
-            isEdit={false}
-            onLongPress={showModal}
+            classData={item}
+            itemIndex={index}
+            onPressItem={() => {}}
+            editClass={edit}
+            deleteClass={del}
           />
-        ))}
-      </ScrollView>
+        )}
+        keyExtractor={item => item._id}
+      />
       <TouchableOpacity
         style={{
           position: 'absolute',
@@ -49,9 +93,29 @@ const Classes = props => {
           width: 50,
           height: 50,
         }}
-        onPress={() => {}}>
+        onPress={() => {
+          setIsEdit(false);
+          setIsShowPopup(true);
+        }}>
         <MaterialIcons name="add-circle-outline" size={50} color="#0066ff" />
       </TouchableOpacity>
+      <PopupClass
+        dataEdit={dataEdit}
+        visible={isShowPopup}
+        isEdit={isEdit}
+        onPressCancel={() => {
+          setIsShowPopup(false);
+          setDataEdit({});
+        }}
+        onPressOK={isEdit ? m_editClass : m_addClass}
+      />
+      <ReAskPopup
+        visible={isShowAsk}
+        onPressOK={m_deleteClass}
+        onPressCancel={() => {
+          setIsShowAsk(false);
+        }}
+      />
     </SafeAreaView>
   );
 };

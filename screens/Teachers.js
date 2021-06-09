@@ -1,75 +1,84 @@
 import React, {useState, useEffect} from 'react';
 import {
-  Modal,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
-  Dimensions,
+  FlatList,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import TagUser from '../components/TagUser';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import PopupTeacher from '../components/PopupTeacher';
+import {getAllTeacher, addTeacher, deleteTeacher, editTeacher} from '../realm';
+import ReAskPopup from '../components/ReAskPopup';
+import TagTeacher from '../components/TagTeacher';
 
 const Teachers = props => {
-  const [isShow, setIsShow] = useState(false);
-  const [dataEdit, setDataEdit] = useState(null);
-  const [teachers, setTeachers] = useState([
-    {
-      name: 'Nguyễn Văn Dương',
-      avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-      phoneNumber: '0393072748',
-    },
-    {
-      name: 'Nguyễn Văn Duy',
-      avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-      phoneNumber: '0393072748',
-    },
-    {
-      name: 'Nguyễn Văn Dương',
-      avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-      phoneNumber: '0393072748',
-    },
-    {
-      name: 'Nguyễn Văn Duy',
-      avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-      phoneNumber: '0393072748',
-    },
-    {
-      name: 'Nguyễn Văn Dương',
-      avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-      phoneNumber: '0393072748',
-    },
-    {
-      name: 'Nguyễn Văn Duy',
-      avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-      phoneNumber: '0393072748',
-    },
-  ]);
-  
-  const showModal = data => {
-    //console.log(`data`, data);
-    setDataEdit(data);
-    setIsShow(true);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const [isShowAsk, setIsShowAsk] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
+  const [teachers, setTeachers] = useState([]);
+
+  useEffect(() => {
+    getTeachers();
+  }, []);
+
+  //lấy danh sách các giáo viên
+  const getTeachers = async () => {
+    const allTeachers = await getAllTeacher();
+    setTeachers(allTeachers);
   };
-  const editUser = () => {};
-  const deleteUser =  () => {};
+
+  // thêm giáo viên
+  const m_addTeacher = async userData => {
+    const newTeacher = {
+      _id: Math.floor(Date.now() / 1000),
+      name: userData.name,
+      phoneNumber: userData.phoneNumber,
+      avatar: userData.avatar,
+    };
+    //console.log(`newTeacher`, newTeacher);
+    await addTeacher(newTeacher);
+    setIsShowPopup(false);
+  };
+
+  const editUser = userInfor => {
+    setIsEdit(true);
+    setDataEdit(userInfor);
+    setIsShowPopup(true);
+  };
+  const deleteUser = userInfor => {
+    setIsShowAsk(true);
+    setDataEdit(userInfor);
+  };
+  const m_editTeacher = async teacher => {
+    //console.log(`teacher`, teacher);
+    await editTeacher(teacher);
+    setIsShowPopup(false);
+  };
+  const m_deleteTeacher = async () => {
+    await deleteTeacher(dataEdit);
+    setDataEdit({});
+    setIsShowAsk(false);
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView style={{marginVertical: 10, flex: 1}}>
-        {teachers.map((value, index) => (
-          <TagUser
-            userInfor={value}
-            key={index}
-            isEdit={false}
-            onLongPress={showModal}
+      <FlatList
+        style={{marginVertical: 10, flex: 1}}
+        data={teachers}
+        renderItem={({item, index}) => (
+          <TagTeacher
+            userInfor={item}
+            itemIndex={index}
+            onPressItem={() => {}}
+            editUser={editUser}
+            deleteUser={deleteUser}
           />
-        ))}
-      </ScrollView>
+        )}
+        keyExtractor={item => item._id}
+      />
       <TouchableOpacity
+        activeOpacity={0.8}
         style={{
           position: 'absolute',
           bottom: '5%',
@@ -80,64 +89,31 @@ const Teachers = props => {
           height: 50,
         }}
         onPress={() => {
-          setDataEdit({});
-          setIsShow(true);
+          setIsEdit(false);
+          setIsShowPopup(true);
         }}>
         <MaterialIcons name="add-circle-outline" size={50} color="#0066ff" />
       </TouchableOpacity>
-      <Modal visible={isShow} transparent={true}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View
-            style={{
-              opacity: 0.8,
-              backgroundColor: '#f2f2f2',
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-            }}
-          />
-          <View style={{backgroundColor: '#f2f2f2', width: '100%'}}>
-            <TagUser userInfor={dataEdit} isEdit={true} />
-            <View
-              style={{
-                flexDirection: 'row',
-                marginLeft: 20,
-                marginRight: 50,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginVertical: 10,
-              }}>
-              <TouchableOpacity
-                onPress={deleteUser}
-                style={{backgroundColor: '#fff', borderRadius: 5}}>
-                <MaterialCommunityIcons
-                  name="trash-can-outline"
-                  size={28}
-                  color="black"
-                  style={{marginVertical: 5, marginHorizontal: 5}}
-                />
-              </TouchableOpacity>
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setIsShow(false);
-                    setDataEdit(null);
-                  }}
-                  style={[styles.button, {marginRight: 40}]}>
-                  <Text style={styles.text}>Hủy</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={editUser} style={styles.button}>
-                  <Text style={styles.text}>Thay đổi</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <PopupTeacher
+        dataEdit={dataEdit}
+        visible={isShowPopup}
+        isEdit={isEdit}
+        onPressCancel={() => {
+          setIsShowPopup(false);
+          setDataEdit({});
+        }}
+        onPressOK={isEdit ? m_editTeacher : m_addTeacher}
+      />
+      <ReAskPopup
+        visible={isShowAsk}
+        onPressOK={m_deleteTeacher}
+        onPressCancel={() => {
+          setIsShowAsk(false);
+        }}
+      />
     </SafeAreaView>
   );
 };
-
 export default Teachers;
 
 const styles = StyleSheet.create({

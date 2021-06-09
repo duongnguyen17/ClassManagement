@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
 import TagInfor from '../components/TagInfor';
 const TagUser = props => {
-  const {userInfor, isEdit, onLongPress} = props;
+  const {userInfor, isEdit, onLongPress, setAvatar, setName, setPhoneNumber} =
+    props;
   //console.log(`userInfor`, userInfor);
   return (
     <TouchableOpacity

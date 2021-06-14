@@ -41,7 +41,7 @@ export const StudentSchema = {
     name: 'string',
     phoneNumber: 'string?',
     avatar: 'string?',
-    class: SCHEMA.CLASS,
+    class: `${SCHEMA.CLASS}`,
   },
 };
 
@@ -52,6 +52,7 @@ export const SubjectSchema = {
   properties: {
     _id: 'int',
     name: 'string',
+    teacher: `${SCHEMA.TEACHER}`,
   },
 };
 
@@ -61,8 +62,6 @@ export const DaySchema = {
   //embedded: true,
   properties: {
     name: 'int',
-    lessMorning: 'int',
-    lessAfternoon: 'int',
     subMorning: `${SCHEMA.SUBJECT}[]`,
     subAfternoon: `${SCHEMA.SUBJECT}[]`,
   },
@@ -72,7 +71,7 @@ export const DaySchema = {
 export const ScheduleSchema = {
   name: SCHEMA.SCHEDULE,
   properties: {
-    days: 'Day[]',
+    days: `${SCHEMA.DAY}[]`,
   },
 };
 
@@ -96,7 +95,7 @@ export const getAllTeacher = async () => {
     let allTeacher = realm.objects(SCHEMA.TEACHER);
     //console.log(`allTeacher`, allTeacher);
     return allTeacher;
-  } catch (error) {
+  } catch (error) {   
     switch (error) {
       default:
         console.log(error.message);
@@ -162,6 +161,7 @@ export const getAllClass = async () => {
   try {
     const realm = await Realm.open(configureRealm);
     let allClass = realm.objects(SCHEMA.CLASS);
+    //console.log(`allClass`, allClass);
     return allClass;
   } catch (error) {
     switch (error) {
@@ -176,6 +176,7 @@ export const addClass = async newClass => {
     let isHas = false;
     const realm = await Realm.open(configureRealm);
     let allTeacher = realm.objects(SCHEMA.TEACHER);
+    console.log(`allTeacher`, allTeacher);
     allTeacher.forEach((value, index) => {
       if (value.name == newClass.teacher) {
         newClass.teacher = value;
@@ -184,7 +185,7 @@ export const addClass = async newClass => {
     });
     if (!isHas) {
       let newTeacher = {
-        _id: newClass._id,
+        _id: Math.floor(Date.now() / 100),
         name: newClass.teacher,
         phoneNumber: '',
         avatar: '',

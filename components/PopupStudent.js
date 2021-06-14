@@ -8,7 +8,7 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-const PopupTeacher = props => {
+const PopupStudent = props => {
   const {dataEdit, visible, onPressCancel, onPressOK, isEdit} = props;
   const [name, setName] = useState(dataEdit.name);
   const [grade, setGrade] = useState(dataEdit.grade);
@@ -34,7 +34,7 @@ const PopupTeacher = props => {
       visible={visible}
       dialogTitle={
         <DialogTitle
-          title={isEdit ? 'Chỉnh sửa thông tin' : 'Thêm giáo viên'}
+          title={isEdit ? 'Chỉnh sửa thông tin' : 'Thêm học sinh'}
         />
       }
       footer={
@@ -46,6 +46,7 @@ const PopupTeacher = props => {
               let userData = {
                 _id: dataEdit._id,
                 name: name,
+                grade: grade,
                 phoneNumber: phoneNumber,
                 avatar: avatar,
               };
@@ -72,7 +73,7 @@ const PopupTeacher = props => {
             }}
             source={
               avatar === undefined || avatar === ''
-                ? require('../assets/teacher.jpg')
+                ? require('../assets/student.png')
                 : {uri: avatar}
             }
           />
@@ -104,31 +105,30 @@ const PopupTeacher = props => {
               />
             </View>
           </View>
-          {dataEdit.grade === undefined ? null : (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <View>
-                <Text style={{fontWeight: '600'}}>Lớp: </Text>
-              </View>
-              <View>
-                <TextInput
-                  style={{fontWeight: '600', fontSize: 18}}
-                  //defaultValue={dataEdit.grade}
-                  value={grade}
-                  style={{
-                    width: 200,
-                  }}
-                  onChangeText={text => {
-                    setGrade(text);
-                  }}
-                />
-              </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text style={{fontWeight: '600'}}>Lớp: </Text>
             </View>
-          )}
+            <View>
+              <TextInput
+                style={{fontWeight: '600', fontSize: 18}}
+                //defaultValue={dataEdit.grade}
+                value={grade}
+                style={{
+                  width: 200,
+                }}
+                onChangeText={text => {
+                  setGrade(text);
+                }}
+              />
+            </View>
+          </View>
 
           <View
             style={{
@@ -158,4 +158,4 @@ const PopupTeacher = props => {
     </Dialog>
   );
 };
-export default PopupTeacher;
+export default PopupStudent;

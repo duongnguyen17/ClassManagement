@@ -4,12 +4,14 @@ import Swipeout from 'react-native-swipeout';
 const TagClass = props => {
   const {classData, onPressItem, editClass, deleteClass} = props;
   //console.log(`classData`, classData);
+  //console.log(`classData.teacher`, classData.teacher);
   return (
     <Swipeout
       right={[
         {
           text: 'Edit',
           onPress: () => {
+            //console.log(`classData`, classData);
             editClass(classData);
           },
         },
@@ -25,7 +27,9 @@ const TagClass = props => {
       <TouchableOpacity
         activeOpacity={0.8}
         style={[styles.tag]}
-        onPress={onPressItem}>
+        onPress={() => {
+          onPressItem(classData._id, classData.name);
+        }}>
         <View
           style={{
             marginHorizontal: 10,
@@ -73,9 +77,11 @@ const TagClass = props => {
               <Text style={{fontWeight: '600'}}>GVCN: </Text>
             </View>
             <View>
-              <Text style={{fontWeight: '600', fontSize: 18}}>
-                {classData.teacher.name}
-              </Text>
+              {classData.teacher !== null ? (
+                <Text style={{fontWeight: '600', fontSize: 18}}>
+                  {classData.teacher.name}
+                </Text>
+              ) : null}
             </View>
           </View>
         </View>

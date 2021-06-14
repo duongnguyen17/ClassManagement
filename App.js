@@ -7,6 +7,7 @@ import Classes from './screens/Classes';
 import Class from './screens/Class';
 import Subjects from './screens/Subjects';
 import Teachers from './screens/Teachers';
+import StudentInfor from './screens/StudentInfor';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -88,9 +89,12 @@ const App = () => {
           options={({route}) => ({
             title: route.params.name,
             headerStatusBarHeight: -15,
+            headerStyle: {
+              backgroundColor: '#0099e6',
+            },
           })}
         />
-
+        <MainStack.Screen name="StudentInfor" component={StudentInfor} />
       </MainStack.Navigator>
     </NavigationContainer>
   );

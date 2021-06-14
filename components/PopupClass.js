@@ -12,7 +12,7 @@ const PopupClass = props => {
 
   const [name, setName] = useState(dataEdit.name);
   const [year, setYear] = useState(dataEdit.year);
-  const [teacher, setTeacher] = useState(dataEdit.teacher);
+  const [teacher, setTeacher] = useState(dataEdit.teacher);//tên giáo viên
 
   return (
     <Dialog

@@ -32,7 +32,7 @@ const Classes = props => {
   //thêm lớp học
   const m_addClass = async classData => {
     const newClass = {
-      _id: Math.floor(Date.now() / 1000),
+      _id: Date.now(),
       name: classData.name,
       year: classData.year,
       teacher: classData.teacher,
@@ -63,9 +63,10 @@ const Classes = props => {
     setDataEdit({});
     setIsShowAsk(false);
   };
-  // const gotoClass = (classId, className) => {
-  //   props.navigation.navigate('Class', {_id: classId, name: className});
-  // };
+  //xem chi tiết lớp học đó
+  const gotoClass = (classId, className) => {
+    props.navigation.navigate('Class', {_id: classId, name: className});
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -76,7 +77,7 @@ const Classes = props => {
           <TagClass
             classData={item}
             itemIndex={index}
-            onPressItem={() => {}}
+            onPressItem={gotoClass}
             editClass={edit}
             deleteClass={del}
           />

@@ -5,16 +5,23 @@ import {
   View,
   TextInput,
   Text,
+  FlatList,
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
 import TagUser from './TagUser';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import ReAskPopup from './ReAskPopup';
+import PopupStudent from './PopupStudent';
 const Students = props => {
+  const {students, gotoStudent} = props;
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const scrollView = useRef(null);
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [dataEdit, setDataEdit] = useState({});
+  const [isShowAsk, setIsShowAsk] = useState(false);
 
   useEffect(() => {
     scrollView.current.scrollTo({x: 0, y: 74, animated: true});
@@ -26,7 +33,7 @@ const Students = props => {
       setSearchResult(result);
     }
   }, [searchInput]);
-
+  //hàm tìm kiếm theo tên và SĐT
   const findName = strSearch => {
     let result = [];
     props.students.forEach(element => {
@@ -38,16 +45,49 @@ const Students = props => {
     });
     return result;
   };
+
+  //thêm học sinh
+  const m_addStudent = async userData => {
+    const newStudent = {
+      _id: Date.now(),
+      name: userData.name,
+      phoneNumber: userData.phoneNumber,
+      avatar: userData.avatar,
+      class: userData.class, //tên lớp
+    };
+    await addStudent(newStudent);
+    setIsShowPopup(false);
+  };
+  //chỉnh sửa học sinh
+  const editUser = userInfor => {
+    setIsEdit(true);
+    setDataEdit(userInfor);
+    setIsShowPopup(true);
+  };
+  //xoá học sinh
+  const deleteUser = userInfor => {
+    setIsShowAsk(true);
+    setDataEdit(userInfor);
+  };
+  const m_editStudent = async teacher => {
+    await editStudent(student);
+    setIsShowPopup(false);
+  };
+  const m_deleteStudent = async () => {
+    await deleteStudent(dataEdit);
+    setDataEdit({});
+    setIsShowAsk(false);
+  };
   return (
     <View style={{flex: 1}}>
-      <View style={{marginBottom: 20}}>
+      <View style={{marginBottom: 10}}>
         <TextInput
           style={{
             borderBottomWidth: 0.5,
             borderBottomColor: 'black',
             marginHorizontal: 20,
           }}
-          placeholder={'Nhập tên hoặc SĐT của học sinh'}
+          placeholder={'Nhập tên hoặc SĐT'}
           onChangeText={text => {
             setSearchInput(text);
           }}
@@ -55,7 +95,10 @@ const Students = props => {
       </View>
       <ScrollView ref={scrollView}>
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={() => {
+            setIsEdit(false);
+            setIsShowPopup(true);
+          }}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -79,33 +122,39 @@ const Students = props => {
             style={{marginVertical: 10}}
           />
         </TouchableOpacity>
-        {/* {searchResult.map((value, index) => (
-          <TagUser
-            key={index}
-            userInfor={value}
-            isEdit={false}
-            onLongPress={() => {}}
-          />
-        ))} */}
-        <SwipeListView
+        <FlatList
+          style={{marginVertical: 10, flex: 1}}
           data={searchResult}
-          renderItem={(data, rowMap) => (
+          renderItem={({item, index}) => (
             <TagUser
-              key={data.index}
-              userInfor={data.item}
-              isEdit={false}
-              onLongPress={() => {}}
+              position={'student'}
+              userInfor={item}
+              itemIndex={index}
+              onPressItem={gotoStudent}
+              editUser={editUser}
+              deleteUser={deleteUser}
             />
           )}
-          renderHiddenItem={() => (
-            <View>
-              <Text>Left</Text>
-              <Text>Right</Text>
-            </View>
-          )}
-          leftOpenValue={100}
+          keyExtractor={item => item._id}
         />
       </ScrollView>
+      <PopupStudent
+        dataEdit={dataEdit}
+        visible={isShowPopup}
+        isEdit={isEdit}
+        onPressCancel={() => {
+          setIsShowPopup(false);
+          setDataEdit({});
+        }}
+        onPressOK={isEdit ? m_editStudent : m_addStudent}
+      />
+      <ReAskPopup
+        visible={isShowAsk}
+        onPressOK={m_deleteStudent}
+        onPressCancel={() => {
+          setIsShowAsk(false);
+        }}
+      />
     </View>
   );
 };

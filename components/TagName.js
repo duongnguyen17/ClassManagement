@@ -4,15 +4,17 @@ import {View, Text} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {STATE_STUDENT} from '../constants';
 const TagName = props => {
-  const {name} = props;
+  const {student, nghiHoc} = props;
   const [stateStudent, setStateStudent] = useState(STATE_STUDENT.HOC);
   const nghiHocCoPhep = () => {
     if (
       stateStudent === STATE_STUDENT.HOC ||
       stateStudent === STATE_STUDENT.NGHI_KHONG_PHEP
     ) {
+      nghiHoc(student._id, STATE_STUDENT.NGHI_PHEP);
       setStateStudent(STATE_STUDENT.NGHI_PHEP);
     } else {
+      nghiHoc(student._id, STATE_STUDENT.HOC);
       setStateStudent(STATE_STUDENT.HOC);
     }
   };
@@ -21,8 +23,10 @@ const TagName = props => {
       stateStudent === STATE_STUDENT.HOC ||
       stateStudent === STATE_STUDENT.NGHI_PHEP
     ) {
+      nghiHoc(student._id, STATE_STUDENT.NGHI_KHONG_PHEP);
       setStateStudent(STATE_STUDENT.NGHI_KHONG_PHEP);
     } else {
+      nghiHoc(student._id, STATE_STUDENT.HOC);
       setStateStudent(STATE_STUDENT.HOC);
     }
   };
@@ -37,7 +41,9 @@ const TagName = props => {
         borderColor: 'black',
         alignItems: 'center',
       }}>
-      <Text style={{marginLeft: 10, flex: 1, fontSize: 18}}>{name}</Text>
+      <Text style={{marginLeft: 10, flex: 1, fontSize: 18}}>
+        {student.name}
+      </Text>
       <View
         style={{
           width: 90,

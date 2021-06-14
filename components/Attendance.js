@@ -6,6 +6,8 @@ const Attendance = props => {
   const [date, setDate] = useState(new Date());
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+
+  //tìm kiếm học sinh
   useEffect(() => {
     if (searchInput == '') {
       setSearchResult(props.students);
@@ -25,6 +27,10 @@ const Attendance = props => {
       }
     });
     return result;
+  };
+  //đánh dấu nghỉ học
+  const m_nghiHoc = async (id, status) => {
+    //await m_nghiHoc(id, status);
   };
   return (
     <View style={{flex: 1}}>
@@ -49,7 +55,7 @@ const Attendance = props => {
         />
       </View>
       <ScrollView>
-        <TableStudent students={searchResult} />
+        <TableStudent students={searchResult} nghiHoc={m_nghiHoc} />
       </ScrollView>
     </View>
   );

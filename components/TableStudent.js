@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import TagName from './TagName';
 
 const TableStudent = props => {
-  const {students} = props;
+  const {students, nghiHoc} = props;
   return (
     <View style={{marginTop: 10, width: '100%', alignItems: 'center'}}>
       <View
@@ -29,7 +29,11 @@ const TableStudent = props => {
         </View>
       </View>
       {students.map((value, index) => (
-        <TagName key={index} name={value.name} _id={value._id} />
+        <TagName
+          key={index}
+          student={value}
+          nghiHoc={nghiHoc}
+        />
       ))}
     </View>
   );

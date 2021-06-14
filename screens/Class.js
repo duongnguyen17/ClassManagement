@@ -12,94 +12,81 @@ const Class = props => {
   const [classInfor, setClassInfor] = useState({
     schedule: [
       {
-        title: 'Thứ 2, 21/05/2021',
-        lessMorning: 5,
+        title: 'Thứ 2',
         subMorning: [
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
         ],
-        lessAfternoon: 1,
+
         subAfternoon: [
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
         ],
       },
       {
-        title: 'Thứ 3, 22/05/2021',
-        lessMorning: 5,
+        title: 'Thứ 3',
+
         subMorning: [
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
         ],
-        lessAfternoon: 1,
+
         subAfternoon: [
           {
             name: 'Sinh học',
             teacher: 'Nguyễn Văn Dương',
-            note: 'nộp bài báo cáo',
           },
         ],
       },
     ],
     students: [
       {
-        _id: 'asdfasdfasdf',
+        _id: 'asdfasd123fasdf',
         name: 'Nguyễn Văn Dương',
         phoneNumber: '023223423',
         avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: 'asdfasdfa123sdf',
         name: 'Nguyễn Văn Duy',
         phoneNumber: '02349434',
         avatar:
@@ -107,14 +94,14 @@ const Class = props => {
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: '23123123',
         name: 'Nguyễn Hữu Dương',
         phoneNumber: '01234',
         avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: 'asdfas123123dfasdf',
         name: 'Nguyễn Văn Cường',
         avatar:
           'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
@@ -122,14 +109,14 @@ const Class = props => {
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: '2312312312',
         name: 'Nguyễn Văn Dương',
         phoneNumber: '023223423',
         avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: 'asdfasdf1231231asdf',
         name: 'Nguyễn Văn Duy',
         phoneNumber: '02349434',
         avatar:
@@ -137,14 +124,14 @@ const Class = props => {
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: 'asdfas12312312dfasdf',
         name: 'Nguyễn Hữu Dương',
         phoneNumber: '01234',
         avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
         class: '12a1',
       },
       {
-        _id: 'asdfasdfasdf',
+        _id: 'asdfasdf435435asdf',
         name: 'Nguyễn Văn Cường',
         avatar:
           'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
@@ -154,12 +141,16 @@ const Class = props => {
     ],
   });
 
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(1); //tab hiển thị đầu tiên là ở giữa
   const [routes] = useState([
     {key: 'schedule', title: 'TKB'},
     {key: 'attendance', title: 'Điểm danh'},
     {key: 'students', title: 'Học sinh'},
   ]);
+  //xem thông tin chi tiết
+  const gotoStudent = id => {
+    props.navigation.navigate('StudentInfor', {_id: id});
+  };
 
   const renderScene = ({route}) => {
     switch (route.key) {
@@ -168,7 +159,9 @@ const Class = props => {
       case 'attendance':
         return <Attendance students={classInfor.students} />;
       case 'students':
-        return <Students students={classInfor.students} />;
+        return (
+          <Students students={classInfor.students} gotoStudent={gotoStudent} />
+        );
       default:
         return null;
     }

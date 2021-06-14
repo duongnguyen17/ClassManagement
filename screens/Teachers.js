@@ -10,7 +10,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PopupTeacher from '../components/PopupTeacher';
 import {getAllTeacher, addTeacher, deleteTeacher, editTeacher} from '../realm';
 import ReAskPopup from '../components/ReAskPopup';
-import TagTeacher from '../components/TagTeacher';
+import TagUser from '../components/TagUser';
 
 const Teachers = props => {
   const [isEdit, setIsEdit] = useState(false);
@@ -18,7 +18,6 @@ const Teachers = props => {
   const [isShowAsk, setIsShowAsk] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
   const [teachers, setTeachers] = useState([]);
-
   useEffect(() => {
     getTeachers();
   }, []);
@@ -26,13 +25,14 @@ const Teachers = props => {
   //lấy danh sách các giáo viên
   const getTeachers = async () => {
     const allTeachers = await getAllTeacher();
+    // console.log(`allTeachers1`, allTeachers);
     setTeachers(allTeachers);
   };
 
   // thêm giáo viên
   const m_addTeacher = async userData => {
     const newTeacher = {
-      _id: Math.floor(Date.now() / 1000),
+      _id: Date.now(),
       name: userData.name,
       phoneNumber: userData.phoneNumber,
       avatar: userData.avatar,
@@ -67,7 +67,8 @@ const Teachers = props => {
         style={{marginVertical: 10, flex: 1}}
         data={teachers}
         renderItem={({item, index}) => (
-          <TagTeacher
+          <TagUser
+            position={'teacher'}
             userInfor={item}
             itemIndex={index}
             onPressItem={() => {}}

@@ -2,25 +2,42 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const TableSchedule = props => {
-  const {title, lessMorning, subMorning, lessAfternoon, subAfternoon} = props;
+  const {title} = props;
+  const [subMorning, setSubMorning] = useState(props.subMorning);
+  const [subAfternoon, setsubAfternoon] = useState(props.subAfternoon);
+  const [isEdit, setIsEdit] = useState(false);
   const renLession = num => {
     let arr = [];
     for (let i = 0; i < num; ++i) {
       arr.push(i + 1);
     }
     const result = arr.map((value, index) => (
-      <View key={index} style={[styles.tile, {alignItems: 'center'}]}>
+      <View
+        key={index}
+        style={[styles.tile, {alignItems: 'center', justifyContent: 'center'}]}>
         <Text style={{fontWeight: 'bold', fontSize: 16}}>{value}</Text>
       </View>
     ));
     return result;
   };
 
+  const addSub = () => {
+    
+  }
+
   return (
     <View style={styles.container}>
-      <View style={{marginLeft: 20, marginTop: 10}}>
+      <View
+        style={{
+          marginLeft: 20,
+          marginTop: 10,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
             fontSize: 20,
@@ -29,6 +46,18 @@ const TableSchedule = props => {
           }}>
           {title}
         </Text>
+        <TouchableOpacity
+          style={{}}
+          onPress={() => {
+            setIsEdit(!isEdit);
+          }}>
+          <MaterialIcons
+            name={isEdit ? 'check-circle-outline' : 'edit'}
+            size={25}
+            color={'#3399ff'}
+            style={{marginHorizontal: 10, marginVertical: 5}}
+          />
+        </TouchableOpacity>
       </View>
       <View style={{marginVertical: 10, marginHorizontal: 5, borderWidth: 0.5}}>
         <View style={{flexDirection: 'row'}}>
@@ -44,46 +73,140 @@ const TableSchedule = props => {
           <View style={styles.sessionColumn}>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>Sáng</Text>
           </View>
-          <View style={styles.lessionColumn}>{renLession(lessMorning)}</View>
+          <View style={styles.lessionColumn}>
+            {renLession(subMorning.length)}
+            {isEdit ? (
+              <View
+                style={[
+                  styles.tile,
+                  {alignItems: 'center', justifyContent: 'center', height: 20},
+                ]}></View>
+            ) : null}
+          </View>
           <View style={styles.subjectColumn}>
             {subMorning.map((value, index) => (
-              <View key={index} style={styles.tile}>
-                <View style={{marginHorizontal: 10, marginVertical: 5}}>
-                  <TouchableOpacity
+              <View
+                key={index}
+                style={[
+                  styles.tile,
+                  {
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  },
+                ]}>
+                <View
+                  style={{
+                    marginHorizontal: 10,
+                    marginVertical: 5,
+                  }}>
+                  {/* <TouchableOpacity
                     style={{position: 'absolute', top: 5, right: 5}}>
                     <Octicons name="three-bars" size={15} color="gray" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <Text style={styles.subjectText}>{value.name}</Text>
                   <Text style={styles.noteText}>g/v: {value.teacher}</Text>
                   {/* <ScrollView style={{height: 30}}> */}
-                  <Text style={styles.noteText}>note: {value.note}</Text>
+                  {/* <Text style={styles.noteText}>note: {value.note}</Text> */}
                   {/* </ScrollView> */}
                 </View>
+                {isEdit ? (
+                  <TouchableOpacity
+                    style={{
+                      marginHorizontal: 5,
+                      width: 30,
+                      height: '80%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Octicons name={'trashcan'} size={20} color={'gray'} />
+                  </TouchableOpacity>
+                ) : null}
               </View>
             ))}
+            {isEdit ? (
+              <View
+                style={[
+                  styles.tile,
+                  {alignItems: 'center', justifyContent: 'center', height: 50},
+                ]}>
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name={'add-circle-outline'}
+                    size={35}
+                    color={'#3399ff'}
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : null}
           </View>
         </View>
         <View style={styles.session}>
           <View style={styles.sessionColumn}>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>Chiều</Text>
           </View>
-          <View style={styles.lessionColumn}>{renLession(lessAfternoon)}</View>
+          <View style={styles.lessionColumn}>
+            {renLession(subAfternoon.length)}
+            {isEdit ? (
+              <View
+                style={[
+                  styles.tile,
+                  {alignItems: 'center', justifyContent: 'center', height: 20},
+                ]}></View>
+            ) : null}
+          </View>
           <View style={styles.subjectColumn}>
             {subAfternoon.map((value, index) => (
-              <View key={index} style={styles.tile}>
+              <View
+                key={index}
+                style={[
+                  styles.tile,
+                  {
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  },
+                ]}>
                 <View style={{marginHorizontal: 10, marginVertical: 5}}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={{position: 'absolute', top: 5, right: 5}}>
                     <Octicons name="three-bars" size={15} color="gray" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <Text style={styles.subjectText}>{value.name}</Text>
                   <Text style={styles.noteText}>g/v: {value.teacher}</Text>
                   {/* <ScrollView style={{height: 50}}> */}
-                  <Text style={styles.noteText}>note: {value.note}</Text>
+                  {/* <Text style={styles.noteText}>note: {value.note}</Text> */}
                   {/* </ScrollView> */}
                 </View>
+                {isEdit ? (
+                  <TouchableOpacity
+                    style={{
+                      marginHorizontal: 5,
+                      width: 30,
+                      height: '80%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Octicons name={'trashcan'} size={20} color={'gray'} />
+                  </TouchableOpacity>
+                ) : null}
               </View>
             ))}
+            {isEdit ? (
+              <View
+                style={[
+                  styles.tile,
+                  {alignItems: 'center', justifyContent: 'center', height: 50},
+                ]}>
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name={'add-circle-outline'}
+                    size={35}
+                    color={'#3399ff'}
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : null}
           </View>
         </View>
       </View>
@@ -132,11 +255,10 @@ const styles = StyleSheet.create({
   tile: {
     width: '100%',
     flex: 1,
-    justifyContent: 'center',
     borderBottomWidth: 0.5,
     borderTopWidth: 0.5,
     borderColor: 'gray',
-    flexDirection: 'column',
+    alignItems: 'center',
   },
   subjectText: {
     fontWeight: 'bold',

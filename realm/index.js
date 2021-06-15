@@ -7,6 +7,7 @@ export const SCHEMA = {
   SUBJECT: 'Subject',
   DAY: 'Day',
   SCHEDULE: 'Schedule',
+  DAYOFF:'DayOff'
 };
 //Giáo viên được quản lý với các thuộc tính: tên, số điện thoại, hình đại diện
 export const TeacherSchema = {
@@ -42,8 +43,16 @@ export const StudentSchema = {
     phoneNumber: 'string?',
     avatar: 'string?',
     class: `${SCHEMA.CLASS}`,
+   // chuyenCan: '[]'
   },
 };
+//ngay nghi
+// export const DayOff = {
+//   name: SCHEMA.DAYOFF,
+//   properties:{
+//     date: ''
+//   }
+// }
 
 //Môn học được quản lý với các thuộc tính: tên
 export const SubjectSchema = {

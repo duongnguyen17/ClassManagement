@@ -7,7 +7,9 @@ export const SCHEMA = {
   SUBJECT: 'Subject',
   DAY: 'Day',
   SCHEDULE: 'Schedule',
-  DAYOFF:'DayOff'
+  DAYOFF: 'DayOff',
+  DAYHASOFF: 'DayHasOff',
+  STUDENTOFF: 'StudentOff',
 };
 //Giáo viên được quản lý với các thuộc tính: tên, số điện thoại, hình đại diện
 export const TeacherSchema = {
@@ -28,8 +30,8 @@ export const ClassSchema = {
   properties: {
     _id: 'int',
     name: 'string',
-    year: 'string',
-    teacher: `${SCHEMA.TEACHER}`,
+    year: 'string?',
+    teacher: `${SCHEMA.TEACHER}?`,
   },
 };
 
@@ -42,17 +44,39 @@ export const StudentSchema = {
     name: 'string',
     phoneNumber: 'string?',
     avatar: 'string?',
-    class: `${SCHEMA.CLASS}`,
-   // chuyenCan: '[]'
+    class: SCHEMA.CLASS,
+    dayOff: `${SCHEMA.DAYOFF}[]`,
   },
 };
-//ngay nghi
-// export const DayOff = {
-//   name: SCHEMA.DAYOFF,
-//   properties:{
-//     date: ''
-//   }
-// }
+
+// ngay nghi
+export const DayOffSchema = {
+  name: SCHEMA.DAYOFF,
+  embedded: true,
+  properties: {
+    date: 'string',
+    count: 'int',
+  },
+};
+
+export const StudentOff = {
+  name: SCHEMA.STUDENTOFF,
+  embedded: true,
+  properties: {
+    student: SCHEMA.STUDENT,
+    count: 'int',
+  },
+};
+
+//ngày có học sinh nghỉ
+export const DayHasOff = {
+  name: SCHEMA.DAYHASOFF,
+  primaryKey: '_id',
+  properties: {
+    _id: 'string',
+    students: `${SCHEMA.STUDENTOFF}[]`,
+  },
+};
 
 //Môn học được quản lý với các thuộc tính: tên
 export const SubjectSchema = {
@@ -80,6 +104,7 @@ export const DaySchema = {
 export const ScheduleSchema = {
   name: SCHEMA.SCHEDULE,
   properties: {
+    _id: 'string',
     days: `${SCHEMA.DAY}[]`,
   },
 };
@@ -92,6 +117,7 @@ const configureRealm = {
     ClassSchema,
     ScheduleSchema,
     DaySchema,
+    DayOffSchema,
     SubjectSchema,
   ],
   // schemaVersion: 0,
@@ -104,7 +130,7 @@ export const getAllTeacher = async () => {
     let allTeacher = realm.objects(SCHEMA.TEACHER);
     //console.log(`allTeacher`, allTeacher);
     return allTeacher;
-  } catch (error) {   
+  } catch (error) {
     switch (error) {
       default:
         console.log(error.message);

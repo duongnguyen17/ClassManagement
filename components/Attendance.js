@@ -18,7 +18,7 @@ const Attendance = props => {
   //chọn ngày
   const [date, setDate] = useState(new Date());
   const [isShow, setIsShow] = useState(false);
-  // console.log(`date`, date);
+  //console.log(`date`, date);
   //console.log(`isShow`, isShow);
   //tìm kiếm học sinh
   useEffect(() => {
@@ -53,7 +53,7 @@ const Attendance = props => {
   };
   return (
     <View style={{flex: 1}}>
-      <View style={{marginTop: 20}}>
+      <View style={{marginTop: 10}}>
         <TouchableOpacity
           onPress={() => {
             setIsShow(true);
@@ -100,9 +100,7 @@ const Attendance = props => {
           }}
         />
       </View>
-      <ScrollView>
-        <TableStudent students={searchResult} nghiHoc={m_nghiHoc} />
-      </ScrollView>
+      <TableStudent students={searchResult} nghiHoc={m_nghiHoc} />
       {isShow ? (
         <RNDateTimePicker
           mode={'date'}

@@ -138,6 +138,59 @@ const Class = props => {
         phoneNumber: '0sadfasdf48',
         class: '12a1',
       },
+      {
+        _id: 'asdfasdfa1sadfdsaf23sdf',
+        name: 'Nguyễn Văn Duy',
+        phoneNumber: '02349434',
+        avatar:
+          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+        class: '12a1',
+      },
+      {
+        _id: '231231sadfwer23',
+        name: 'Nguyễn Hữu Dương',
+        phoneNumber: '01234',
+        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+        class: '12a1',
+      },
+      {
+        _id: 'asdfas123werw123dfasdf',
+        name: 'Nguyễn Văn Cường',
+        avatar:
+          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+        phoneNumber: '0sadfasdf48',
+        class: '12a1',
+      },
+      {
+        _id: '23123werwerwe12312',
+        name: 'Nguyễn Văn Dương',
+        phoneNumber: '023223423',
+        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+        class: '12a1',
+      },
+      {
+        _id: 'asdfasdf12312werwe31asdf',
+        name: 'Nguyễn Văn Duy',
+        phoneNumber: '02349434',
+        avatar:
+          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+        class: '12a1',
+      },
+      {
+        _id: 'asdfas123ghj12312dfasdf',
+        name: 'Nguyễn Hữu Dương',
+        phoneNumber: '01234',
+        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+        class: '12a1',
+      },
+      {
+        _id: 'asdfasdfghj35435asdf',
+        name: 'Nguyễn Văn Cường',
+        avatar:
+          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+        phoneNumber: '0sadfasdf48',
+        class: '12a1',
+      },
     ],
   });
 

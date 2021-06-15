@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {STATE_STUDENT} from '../constants';
 const TagName = props => {
   const {student, nghiHoc} = props;
+  //console.log(`student`, student);
   const [stateStudent, setStateStudent] = useState(STATE_STUDENT.HOC);
   const nghiHocCoPhep = () => {
     if (
@@ -36,9 +37,9 @@ const TagName = props => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 45,
-        width: '98%',
+        width: '100%',
         borderTopWidth: 0.5,
-        borderColor: 'black',
+        borderColor: '#d9d9d9',
         alignItems: 'center',
       }}>
       <Text style={{marginLeft: 10, flex: 1, fontSize: 18}}>

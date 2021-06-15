@@ -26,7 +26,7 @@ const Students = props => {
   useEffect(() => {
     scrollView.current.scrollTo({x: 0, y: 74, animated: true});
     if (searchInput == '') {
-      setSearchResult(props.students);
+      setSearchResult(students);
     } else {
       let result = findName(searchInput);
       //console.log(`result`, result);
@@ -36,7 +36,7 @@ const Students = props => {
   //hàm tìm kiếm theo tên và SĐT
   const findName = strSearch => {
     let result = [];
-    props.students.forEach(element => {
+    students.forEach(element => {
       if (element.name.includes(strSearch)) {
         result.push(element);
       } else if (element.phoneNumber.includes(strSearch)) {
@@ -122,7 +122,7 @@ const Students = props => {
             style={{marginVertical: 10}}
           />
         </TouchableOpacity>
-        <FlatList
+        {/* <FlatList
           style={{marginVertical: 10, flex: 1}}
           data={searchResult}
           renderItem={({item, index}) => (
@@ -136,7 +136,17 @@ const Students = props => {
             />
           )}
           keyExtractor={item => item._id}
-        />
+        /> */}
+        {searchResult.map((item, index) => (
+          <TagUser
+            position={'student'}
+            userInfor={item}
+            key={index}
+            onPressItem={gotoStudent}
+            editUser={editUser}
+            deleteUser={deleteUser}
+          />
+        ))}
       </ScrollView>
       <PopupStudent
         dataEdit={dataEdit}

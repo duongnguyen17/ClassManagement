@@ -14,6 +14,7 @@ const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const StudentInfor = props => {
   const scrollView = useRef(null);
+  const scrollHori = useRef(null);
   const [student, setStudent] = useState({
     _id: 872348617234,
     name: 'Nguyễn Văn Khánh',
@@ -69,7 +70,9 @@ const StudentInfor = props => {
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const date = new Date();
-
+  useEffect(() => {
+    scrollHori.current.scrollToEnd({animated: true});
+  }, []);
   useEffect(() => {
     if (searchInput == '') {
       setSearchResult(student.dayOff);
@@ -161,12 +164,12 @@ const StudentInfor = props => {
           <Text style={{alignSelf: 'center', marginVertical: 5, fontSize: 20}}>
             Biểu đồ chuyên cần
           </Text>
-          <ScrollView horizontal={true}>
+          <ScrollView horizontal={true} ref={scrollHori}>
             <ContributionGraph
               values={student.dayOff}
-              endDate={() => date.setDate(date.getDate() + 50)}
+              endDate={date}
               numDays={365}
-              width={SCREEN_WIDTH - 20}
+              width={1180}
               height={210}
               chartConfig={{
                 backgroundGradientFrom: '#fff',
@@ -254,11 +257,12 @@ const StudentInfor = props => {
             style={{
               width: '90%',
               alignSelf: 'center',
-              minHeight: 100,
-              maxHeight: SCREEN_HEIGHT,
+              height: SCREEN_HEIGHT - 200,
+              marginBottom: 20,
             }}>
             {searchResult.map((value, index) => (
               <View
+                key={index}
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-around',

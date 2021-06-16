@@ -4,7 +4,7 @@ import Swipeout from 'react-native-swipeout';
 const TagTeacher = props => {
   const {position, userInfor, onPressItem, editUser, deleteUser} = props;
   //console.log(`userInfor`, userInfor);
-  
+
   return (
     <Swipeout
       right={[
@@ -26,7 +26,9 @@ const TagTeacher = props => {
       <TouchableOpacity
         activeOpacity={0.8}
         style={[styles.tag, {flexDirection: 'row', alignItems: 'center'}]}
-        onPress={onPressItem}>
+        onPress={() => {
+          onPressItem(userInfor._id);
+        }}>
         <View
           style={{
             width: 60,

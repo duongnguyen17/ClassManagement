@@ -3,7 +3,7 @@ import {Text, View, FlatList} from 'react-native';
 import TagName from './TagName';
 
 const TableStudent = props => {
-  const {students, nghiHoc} = props;
+  const {students, nghiHoc, date} = props;
   return (
     <View
       style={{
@@ -38,7 +38,7 @@ const TableStudent = props => {
         style={{width: '100%'}}
         data={students}
         renderItem={(item, index) => (
-          <TagName student={item.item} nghiHoc={nghiHoc} />
+          <TagName student={item.item} nghiHoc={nghiHoc} date={date} />
         )}
         keyExtractor={item => item._id}
       />

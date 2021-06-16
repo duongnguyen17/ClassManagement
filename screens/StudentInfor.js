@@ -10,67 +10,39 @@ import {
   StyleSheet,
 } from 'react-native';
 import {ContributionGraph} from 'react-native-chart-kit';
+import {STATE_STUDENT} from '../constants';
+import {getStudent} from '../realm';
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const StudentInfor = props => {
   const scrollView = useRef(null);
   const scrollHori = useRef(null);
   const [student, setStudent] = useState({
-    _id: 872348617234,
-    name: 'Nguyễn Văn Khánh',
-    phoneNumber: '0393072748',
-    avatar: '../assets/student.png',
+    _id: 1,
+    name: '',
+    phoneNumber: '',
+    avatar: '',
     class: {
-      _id: 89123482343,
-      name: '12A1',
-      year: '14-17',
+      _id: 1,
+      name: '',
+      year: '',
       teacher: {
-        name: 'Nguyễn Văn Dương',
+        name: '',
       },
     },
     dayOff: [
       {
-        date: '2021-06-14',
-        count: 4,
-      },
-      {
-        date: '2021-06-02',
-        count: 2,
-      },
-      {
-        date: '2021-06-10',
-        count: 2,
-      },
-      {
-        date: '2021-05-14',
-        count: 4,
-      },
-      {
-        date: '2021-06-12',
-        count: 2,
-      },
-      {
-        date: '2021-05-10',
-        count: 2,
-      },
-      {
-        date: '2021-06-13',
-        count: 4,
-      },
-      {
-        date: '2020-06-02',
-        count: 2,
-      },
-      {
-        date: '2020-06-10',
-        count: 2,
+        date: '',
+        count: null,
       },
     ],
   });
+  const [dayOff, setDayOff] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const date = new Date();
   useEffect(() => {
+    m_getStudent();
     scrollHori.current.scrollToEnd({animated: true});
   }, []);
   useEffect(() => {
@@ -82,15 +54,33 @@ const StudentInfor = props => {
       setSearchResult(result);
     }
   }, [searchInput]);
-
+  //lấy thông tin học sinh
+  const m_getStudent = async () => {
+    //console.log(`object`, props.route.params._id);
+    let studentInfor = await getStudent(props.route.params._id);
+    //console.log(`studentInfor`, studentInfor);
+    setStudent(studentInfor);
+    setDayOff(studentInfor.dayOff);
+  };
   //hàm tìm kiếm ngày nghỉ
   const findDayOff = strSearch => {
     let result = [];
     student.dayOff.forEach(element => {
       if (element.date.includes(strSearch)) {
         result.push(element);
-      } else if (element.count == strSearch) {
-        result.push(element);
+      } else {
+        let countFind = 1;
+        if (strSearch.includes('có phép') || strSearch.includes('Có phép')) {
+          countFind = STATE_STUDENT.NGHI_PHEP;
+        } else if (
+          strSearch.includes('không phép') ||
+          strSearch.includes('Không phép')
+        ) {
+          countFind = STATE_STUDENT.NGHI_KHONG_PHEP;
+        }
+        if (element.count == countFind) {
+          result.push(element);
+        }
       }
     });
     return result;
@@ -114,7 +104,6 @@ const StudentInfor = props => {
           <View
             style={{
               marginHorizontal: 10,
-              justifyContent: 'space-between',
               alignItems: 'center',
               flexDirection: 'row',
             }}>
@@ -124,7 +113,7 @@ const StudentInfor = props => {
                 style={{width: 100, height: 100, borderRadius: 100}}
               />
             </View>
-            <View>
+            <View style={{marginLeft: 20}}>
               <View style={styles.tagInfor}>
                 <View style={styles.content}>
                   <Text>Họ tên:</Text>
@@ -166,7 +155,7 @@ const StudentInfor = props => {
           </Text>
           <ScrollView horizontal={true} ref={scrollHori}>
             <ContributionGraph
-              values={student.dayOff}
+              values={dayOff}
               endDate={date}
               numDays={365}
               width={1180}
@@ -273,7 +262,11 @@ const StudentInfor = props => {
                   alignItems: 'center',
                 }}>
                 <Text>{value.date}</Text>
-                <Text>{value.count}</Text>
+                <Text>
+                  {value.count == STATE_STUDENT.NGHI_PHEP
+                    ? 'có phép'
+                    : 'không phép'}
+                </Text>
               </View>
             ))}
           </ScrollView>

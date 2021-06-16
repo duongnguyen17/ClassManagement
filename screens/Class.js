@@ -2,197 +2,205 @@ import React, {useState, useEffect, useRef} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
 import {TabView, SceneMap} from 'react-native-tab-view';
-import Attendance from '../components/Attendance';
-import Schedule from '../components/Schedule';
-import Students from '../components/Students';
+import Attendance from './Attendance';
+import Schedule from './Schedule';
+import Students from './Students';
+import {getClass} from '../realm';
 //const SCREEN_WIDTH = Dimensions.get('screen').Width;
 // const HEIGHT_COMPONENT = SCREEN_HEIGHT - 60;
 
 const Class = props => {
+  const {_id} = props.route.params;
+  //console.log(`_id`, _id);
   const [classInfor, setClassInfor] = useState({
-    schedule: [
-      {
-        title: 'Thứ 2',
-        subMorning: [
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-        ],
-
-        subAfternoon: [
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-        ],
-      },
-      {
-        title: 'Thứ 3',
-
-        subMorning: [
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-        ],
-
-        subAfternoon: [
-          {
-            name: 'Sinh học',
-            teacher: 'Nguyễn Văn Dương',
-          },
-        ],
-      },
-    ],
-    students: [
-      {
-        _id: 'asdfasd123fasdf',
-        name: 'Nguyễn Văn Dương',
-        phoneNumber: '023223423',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfasdfa123sdf',
-        name: 'Nguyễn Văn Duy',
-        phoneNumber: '02349434',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        class: '12a1',
-      },
-      {
-        _id: '23123123',
-        name: 'Nguyễn Hữu Dương',
-        phoneNumber: '01234',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfas123123dfasdf',
-        name: 'Nguyễn Văn Cường',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        phoneNumber: '0sadfasdf48',
-        class: '12a1',
-      },
-      {
-        _id: '2312312312',
-        name: 'Nguyễn Văn Dương',
-        phoneNumber: '023223423',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfasdf1231231asdf',
-        name: 'Nguyễn Văn Duy',
-        phoneNumber: '02349434',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfas12312312dfasdf',
-        name: 'Nguyễn Hữu Dương',
-        phoneNumber: '01234',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfasdf435435asdf',
-        name: 'Nguyễn Văn Cường',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        phoneNumber: '0sadfasdf48',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfasdfa1sadfdsaf23sdf',
-        name: 'Nguyễn Văn Duy',
-        phoneNumber: '02349434',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        class: '12a1',
-      },
-      {
-        _id: '231231sadfwer23',
-        name: 'Nguyễn Hữu Dương',
-        phoneNumber: '01234',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfas123werw123dfasdf',
-        name: 'Nguyễn Văn Cường',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        phoneNumber: '0sadfasdf48',
-        class: '12a1',
-      },
-      {
-        _id: '23123werwerwe12312',
-        name: 'Nguyễn Văn Dương',
-        phoneNumber: '023223423',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfasdf12312werwe31asdf',
-        name: 'Nguyễn Văn Duy',
-        phoneNumber: '02349434',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfas123ghj12312dfasdf',
-        name: 'Nguyễn Hữu Dương',
-        phoneNumber: '01234',
-        avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
-        class: '12a1',
-      },
-      {
-        _id: 'asdfasdfghj35435asdf',
-        name: 'Nguyễn Văn Cường',
-        avatar:
-          'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
-        phoneNumber: '0sadfasdf48',
-        class: '12a1',
-      },
-    ],
+    // schedule: [
+    //   {
+    //     title: 'Thứ 2',
+    //     subMorning: [
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //     ],
+    //     subAfternoon: [
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     title: 'Thứ 3',
+    //     subMorning: [
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //     ],
+    //     subAfternoon: [
+    //       {
+    //         name: 'Sinh học',
+    //         teacher: 'Nguyễn Văn Dương',
+    //       },
+    //     ],
+    //   },
+    // ],
+    // students: [
+    //   {
+    //     _id: 'asdfasd123fasdf',
+    //     name: 'Nguyễn Văn Dương',
+    //     phoneNumber: '023223423',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfasdfa123sdf',
+    //     name: 'Nguyễn Văn Duy',
+    //     phoneNumber: '02349434',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: '23123123',
+    //     name: 'Nguyễn Hữu Dương',
+    //     phoneNumber: '01234',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfas123123dfasdf',
+    //     name: 'Nguyễn Văn Cường',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     phoneNumber: '0sadfasdf48',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: '2312312312',
+    //     name: 'Nguyễn Văn Dương',
+    //     phoneNumber: '023223423',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfasdf1231231asdf',
+    //     name: 'Nguyễn Văn Duy',
+    //     phoneNumber: '02349434',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfas12312312dfasdf',
+    //     name: 'Nguyễn Hữu Dương',
+    //     phoneNumber: '01234',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfasdf435435asdf',
+    //     name: 'Nguyễn Văn Cường',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     phoneNumber: '0sadfasdf48',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfasdfa1sadfdsaf23sdf',
+    //     name: 'Nguyễn Văn Duy',
+    //     phoneNumber: '02349434',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: '231231sadfwer23',
+    //     name: 'Nguyễn Hữu Dương',
+    //     phoneNumber: '01234',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfas123werw123dfasdf',
+    //     name: 'Nguyễn Văn Cường',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     phoneNumber: '0sadfasdf48',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: '23123werwerwe12312',
+    //     name: 'Nguyễn Văn Dương',
+    //     phoneNumber: '023223423',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfasdf12312werwe31asdf',
+    //     name: 'Nguyễn Văn Duy',
+    //     phoneNumber: '02349434',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfas123ghj12312dfasdf',
+    //     name: 'Nguyễn Hữu Dương',
+    //     phoneNumber: '01234',
+    //     avatar: 'https://ctt-sis.hust.edu.vn/Content/Anh/anh_20173069.JPG',
+    //     class: '12a1',
+    //   },
+    //   {
+    //     _id: 'asdfasdfghj35435asdf',
+    //     name: 'Nguyễn Văn Cường',
+    //     avatar:
+    //       'https://res.cloudinary.com/do4l7xob6/image/upload/v1622478145/gp7usdjkqptpjkfh1rlp.jpg',
+    //     phoneNumber: '0sadfasdf48',
+    //     class: '12a1',
+    //   },
+    // ],
   });
+  // useEffect(() => {
+  //   getClassInfor();
+  // }, []);
+  // const getClassInfor = async () => {
+  //   const classInforTemp = await getClass(_id);
+  //   //console.log(`classInforTemp`, classInforTemp);
+  //   setClassInfor(classInforTemp);
+  // };
 
   const [index, setIndex] = useState(1); //tab hiển thị đầu tiên là ở giữa
   const [routes] = useState([
@@ -200,21 +208,15 @@ const Class = props => {
     {key: 'attendance', title: 'Điểm danh'},
     {key: 'students', title: 'Học sinh'},
   ]);
-  //xem thông tin chi tiết
-  const gotoStudent = id => {
-    props.navigation.navigate('StudentInfor', {_id: id});
-  };
 
   const renderScene = ({route}) => {
     switch (route.key) {
       case 'schedule':
-        return <Schedule schedule={classInfor.schedule} />;
+        return <Schedule classId={_id} {...props} />;
       case 'attendance':
-        return <Attendance students={classInfor.students} />;
+        return <Attendance classId={_id} {...props} />;
       case 'students':
-        return (
-          <Students students={classInfor.students} gotoStudent={gotoStudent} />
-        );
+        return <Students classId={_id} {...props} />;
       default:
         return null;
     }

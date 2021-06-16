@@ -26,7 +26,7 @@ const Classes = props => {
   //lấy danh sách lớp học
   const getClasses = async () => {
     const allClasses = await getAllClass();
-    //console.log(`allClasses`, allClasses);
+    //  console.log(`allClasses`, allClasses);
     setClasses(allClasses);
   };
   //thêm lớp học
@@ -36,6 +36,7 @@ const Classes = props => {
       name: classData.name,
       year: classData.year,
       teacher: classData.teacher,
+      students: [],
     };
     await addClass(newClass);
     setIsShowPopup(false);

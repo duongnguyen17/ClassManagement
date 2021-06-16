@@ -1,12 +1,26 @@
 //hiện thị tên của học sinh
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {STATE_STUDENT} from '../constants';
 const TagName = props => {
-  const {student, nghiHoc} = props;
+  const {student, nghiHoc, date} = props;
+  //console.log(`date`, date);
   //console.log(`student`, student);
-  const [stateStudent, setStateStudent] = useState(STATE_STUDENT.HOC);
+  const [stateStudent, setStateStudent] = useState(null);
+  useEffect(() => {
+    getState();
+  }, []);
+  //lấy trạng thái ngày đó
+  const getState = () => {
+    let state = STATE_STUDENT.HOC;
+    let dateTemp = date.toUTCString().slice(0, 16);
+    student.dayOff.forEach((value, index) => {
+      if (value.date == dateTemp) state = value.count;
+    });
+    setStateStudent(state);
+  };
+
   const nghiHocCoPhep = () => {
     if (
       stateStudent === STATE_STUDENT.HOC ||

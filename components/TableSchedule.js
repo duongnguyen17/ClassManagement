@@ -3,12 +3,12 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-const TableSchedule = props => {
-  const {title} = props;
-  const [subMorning, setSubMorning] = useState(props.subMorning);
-  const [subAfternoon, setsubAfternoon] = useState(props.subAfternoon);
+import {SESSION} from '../constants';
+const TableSchedule = ({day}) => {
+  const [subMorning, setSubMorning] = useState(day.subMorning);
+  const [subAfternoon, setsubAfternoon] = useState(day.subAfternoon);
   const [isEdit, setIsEdit] = useState(false);
+
   const renLession = num => {
     let arr = [];
     for (let i = 0; i < num; ++i) {
@@ -24,9 +24,24 @@ const TableSchedule = props => {
     return result;
   };
 
-  const addSub = () => {
-    
-  }
+  const addSub = session => {
+    if (session == SESSION.MORNING) {
+      let subMorningTemp = subMorning;
+      let newSub = {_id: Date.now(), name: '', teacher: ''};
+      console.log(`newSub`, newSub);
+      subMorningTemp.push(newSub);
+      setSubMorning(subMorningTemp);
+    } else {
+      let subAfternoonTemp = subAfternoon;
+      let newSub = {
+        _id: Date.now(),
+        name: '',
+        teacher: '',
+      };
+      subAfternoonTemp.push(newSub);
+      setSubMorning(subAfternoonTemp);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -44,7 +59,7 @@ const TableSchedule = props => {
             fontWeight: 'bold',
             color: '#0000ff',
           }}>
-          {title}
+          {day.name}
         </Text>
         <TouchableOpacity
           style={{}}
@@ -128,9 +143,12 @@ const TableSchedule = props => {
               <View
                 style={[
                   styles.tile,
-                  {alignItems: 'center', justifyContent: 'center', height: 50},
+                  {alignItems: 'center', justifyContent: 'center', height: 40},
                 ]}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    addSub(SESSION.MORNING);
+                  }}>
                   <MaterialIcons
                     name={'add-circle-outline'}
                     size={35}
@@ -196,9 +214,12 @@ const TableSchedule = props => {
               <View
                 style={[
                   styles.tile,
-                  {alignItems: 'center', justifyContent: 'center', height: 50},
+                  {alignItems: 'center', justifyContent: 'center', height: 40},
                 ]}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    addSub(SESSION.AFTERNOON);
+                  }}>
                   <MaterialIcons
                     name={'add-circle-outline'}
                     size={35}

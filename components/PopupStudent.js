@@ -11,7 +11,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 const PopupStudent = props => {
   const {dataEdit, visible, onPressCancel, onPressOK, isEdit} = props;
   const [name, setName] = useState(dataEdit.name);
-  const [grade, setGrade] = useState(dataEdit.grade);
+  // const [grade, setGrade] = useState(dataEdit.grade);
   const [phoneNumber, setPhoneNumber] = useState(dataEdit.phoneNumber);
   const [avatar, setAvatar] = useState(dataEdit.avatar);
 
@@ -33,9 +33,7 @@ const PopupStudent = props => {
     <Dialog
       visible={visible}
       dialogTitle={
-        <DialogTitle
-          title={isEdit ? 'Chỉnh sửa thông tin' : 'Thêm học sinh'}
-        />
+        <DialogTitle title={isEdit ? 'Chỉnh sửa thông tin' : 'Thêm học sinh'} />
       }
       footer={
         <DialogFooter>
@@ -46,7 +44,6 @@ const PopupStudent = props => {
               let userData = {
                 _id: dataEdit._id,
                 name: name,
-                grade: grade,
                 phoneNumber: phoneNumber,
                 avatar: avatar,
               };
@@ -112,7 +109,7 @@ const PopupStudent = props => {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <View>
+            {/* <View>
               <Text style={{fontWeight: '600'}}>Lớp: </Text>
             </View>
             <View>
@@ -127,7 +124,7 @@ const PopupStudent = props => {
                   setGrade(text);
                 }}
               />
-            </View>
+            </View> */}
           </View>
 
           <View

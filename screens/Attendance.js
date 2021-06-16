@@ -10,8 +10,10 @@ import {
 //import DatePicker from 'react-native-date-picker';
 import Octicons from 'react-native-vector-icons/Octicons';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import TableStudent from './TableStudent';
+import TableStudent from '../components/TableStudent';
+import {getAllStudents, nghiHoc} from '../realm';
 const Attendance = props => {
+  const [students, setStudents] = useState([]);
   //tìm kiếm
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
@@ -20,19 +22,28 @@ const Attendance = props => {
   const [isShow, setIsShow] = useState(false);
   //console.log(`date`, date);
   //console.log(`isShow`, isShow);
+  useEffect(() => {
+    m_getAllStudents();
+  }, []);
   //tìm kiếm học sinh
   useEffect(() => {
     if (searchInput == '') {
-      setSearchResult(props.students);
+      setSearchResult(students);
     } else {
       let result = findName(searchInput);
       //console.log(`result`, result);
       setSearchResult(result);
     }
   }, [searchInput]);
+  //lấy danh sách học sinh
+  const m_getAllStudents = async () => {
+    let allStudents = await getAllStudents(props.classId);
+    //console.log(`allStudents`, allStudents);
+    setStudents(allStudents);
+  };
   const findName = strSearch => {
     let result = [];
-    props.students.forEach(element => {
+    students.forEach(element => {
       if (element.name.includes(strSearch)) {
         result.push(element);
       } else if (element.phoneNumber.includes(strSearch)) {
@@ -43,7 +54,7 @@ const Attendance = props => {
   };
   //đánh dấu nghỉ học
   const m_nghiHoc = async (id, status) => {
-    //await m_nghiHoc(id, status);
+    await nghiHoc(id, status, date.toUTCString().slice(0, 16));
   };
   const setNewDate = (event, date) => {
     setIsShow(false);
@@ -81,7 +92,7 @@ const Attendance = props => {
               marginHorizontal: 8,
             }}>
             <Text style={{fontSize: 24}}>
-              {date.toUTCString().slice(0, 17)}
+              {date.toUTCString().slice(0, 16)}
             </Text>
             <Octicons name="calendar" size={26} color="gray" />
           </View>
@@ -100,7 +111,7 @@ const Attendance = props => {
           }}
         />
       </View>
-      <TableStudent students={searchResult} nghiHoc={m_nghiHoc} />
+      <TableStudent students={searchResult} nghiHoc={m_nghiHoc} date={date} />
       {isShow ? (
         <RNDateTimePicker
           mode={'date'}

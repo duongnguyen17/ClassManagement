@@ -9,12 +9,13 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import TagUser from './TagUser';
+import TagUser from '../components/TagUser';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ReAskPopup from './ReAskPopup';
-import PopupStudent from './PopupStudent';
+import ReAskPopup from '../components/ReAskPopup';
+import PopupStudent from '../components/PopupStudent';
+import {addStudent, getAllStudents, editStudent, deleteStudent} from '../realm';
 const Students = props => {
-  const {students, gotoStudent} = props;
+  const [students, setStudents] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const scrollView = useRef(null);
@@ -22,7 +23,9 @@ const Students = props => {
   const [isEdit, setIsEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
   const [isShowAsk, setIsShowAsk] = useState(false);
-
+  useEffect(() => {
+    m_getAllStudents();
+  }, []);
   useEffect(() => {
     scrollView.current.scrollTo({x: 0, y: 74, animated: true});
     if (searchInput == '') {
@@ -33,6 +36,13 @@ const Students = props => {
       setSearchResult(result);
     }
   }, [searchInput]);
+
+  //lấy danh sách học sinh
+  const m_getAllStudents = async () => {
+    let allStudents = await getAllStudents(props.classId);
+    //console.log(`allStudents`, allStudents);
+    setStudents(allStudents);
+  };
   //hàm tìm kiếm theo tên và SĐT
   const findName = strSearch => {
     let result = [];
@@ -46,6 +56,10 @@ const Students = props => {
     return result;
   };
 
+  //xem thông tin chi tiết của học sinh
+  const gotoStudent = id => {
+    props.navigation.navigate('StudentInfor', {_id: id});
+  };
   //thêm học sinh
   const m_addStudent = async userData => {
     const newStudent = {
@@ -53,9 +67,8 @@ const Students = props => {
       name: userData.name,
       phoneNumber: userData.phoneNumber,
       avatar: userData.avatar,
-      class: userData.class, //tên lớp
     };
-    await addStudent(newStudent);
+    await addStudent(props.classId, newStudent);
     setIsShowPopup(false);
   };
   //chỉnh sửa học sinh
@@ -69,12 +82,12 @@ const Students = props => {
     setIsShowAsk(true);
     setDataEdit(userInfor);
   };
-  const m_editStudent = async teacher => {
+  const m_editStudent = async student => {
     await editStudent(student);
     setIsShowPopup(false);
   };
   const m_deleteStudent = async () => {
-    await deleteStudent(dataEdit);
+    await deleteStudent(dataEdit._id);
     setDataEdit({});
     setIsShowAsk(false);
   };

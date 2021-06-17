@@ -22,7 +22,6 @@ const Schedule = props => {
   }, []);
   const m_getSchedule = async () => {
     let scheduleTemp = await getSchedule(props.classId);
-    //console.log(`scheduleTemp`, scheduleTemp);
     setSchedule(scheduleTemp);
   };
 

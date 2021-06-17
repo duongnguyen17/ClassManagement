@@ -1,13 +1,34 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {changeDaySchedule} from '../realm';
 import {SESSION} from '../constants';
 const TableSchedule = ({day}) => {
-  const [subMorning, setSubMorning] = useState(day.subMorning);
-  const [subAfternoon, setsubAfternoon] = useState(day.subAfternoon);
+  // console.log(`day`, day);
+  const [subMorning, setSubMorning] = useState([...day.subMorning]);
+  const [subAfternoon, setSubAfternoon] = useState([...day.subAfternoon]);
   const [isEdit, setIsEdit] = useState(false);
+  // useEffect(() => {
+  //   makeACopy();
+  // }, []);
+  //make a copy
+  // const makeACopy = () => {
+  //   let subTemp = [...day.subMorning];
+
+  //   // Object.assign(subTemp, day.subMorning);
+  //   setSubMorning(subTemp);
+  //   subTemp = [];
+  //   Object.assign(subTemp, day.subAfternoon);
+  //   setSubAfternoon(subTemp);
+  // };
 
   const renLession = num => {
     let arr = [];
@@ -23,26 +44,42 @@ const TableSchedule = ({day}) => {
     ));
     return result;
   };
-
-  const addSub = session => {
-    if (session == SESSION.MORNING) {
-      let subMorningTemp = subMorning;
-      let newSub = {_id: Date.now(), name: '', teacher: ''};
-      console.log(`newSub`, newSub);
-      subMorningTemp.push(newSub);
-      setSubMorning(subMorningTemp);
-    } else {
-      let subAfternoonTemp = subAfternoon;
-      let newSub = {
-        _id: Date.now(),
-        name: '',
-        teacher: '',
-      };
-      subAfternoonTemp.push(newSub);
-      setSubMorning(subAfternoonTemp);
-    }
+  //save
+  const save = async () => {
+    let newDaySchedule = {
+      _id: day._id,
+      name: day.name,
+      subMorning: subMorning,
+      subAfternoon: subAfternoon,
+    };
+    await changeDaySchedule(newDaySchedule);
   };
 
+  const addSub = session => {
+    let newSub = {_id: Date.now(), name: ''};
+    if (session == SESSION.MORNING) {
+      // let subMorningTemp = subMorning;
+      //console.log(`newSub`, newSub);
+      //subMorningTemp.push(newSub);
+      setSubMorning(x => [...(x || []), newSub]);
+    } else {
+      // let subAfternoonTemp = subAfternoon;
+      // subAfternoonTemp.push(newSub);
+      setSubAfternoon(x => [...(x || []), newSub]);
+    }
+  };
+  //delete sub
+  const deleteSub = (session, index) => {
+    if (session == SESSION.MORNING) {
+      let subTemp = subMorning;
+      subTemp.splice(index, 1);
+      setSubMorning(subTemp);
+    } else {
+      let subTemp = subAfternoon;
+      subTemp.splice(index, 1);
+      setSubAfternoon(subTemp);
+    }
+  };
   return (
     <View style={styles.container}>
       <View
@@ -64,6 +101,9 @@ const TableSchedule = ({day}) => {
         <TouchableOpacity
           style={{}}
           onPress={() => {
+            if (isEdit) {
+              save();
+            }
             setIsEdit(!isEdit);
           }}>
           <MaterialIcons
@@ -119,8 +159,30 @@ const TableSchedule = ({day}) => {
                     style={{position: 'absolute', top: 5, right: 5}}>
                     <Octicons name="three-bars" size={15} color="gray" />
                   </TouchableOpacity> */}
-                  <Text style={styles.subjectText}>{value.name}</Text>
-                  <Text style={styles.noteText}>g/v: {value.teacher}</Text>
+                  {isEdit ? (
+                    <>
+                      <TextInput
+                        placeholder="Nhập tên môn học"
+                        defaultValue={value.name}
+                        onChangeText={text => {
+                          subMorning[index].name = text;
+                        }}
+                      />
+                      {/* <TextInput
+                        placeholder="Nhập tên giáo viên"
+                        defaultValue={value.teacher}
+                        onChangeText={text => {
+                          subMorning[index].teacher = text;
+                        }}
+                      /> */}
+                    </>
+                  ) : (
+                    <>
+                      <Text style={styles.subjectText}>{value.name}</Text>
+                      {/* <Text style={styles.noteText}>g/v: {value.teacher}</Text> */}
+                    </>
+                  )}
+
                   {/* <ScrollView style={{height: 30}}> */}
                   {/* <Text style={styles.noteText}>note: {value.note}</Text> */}
                   {/* </ScrollView> */}
@@ -133,6 +195,9 @@ const TableSchedule = ({day}) => {
                       height: '80%',
                       justifyContent: 'center',
                       alignItems: 'center',
+                    }}
+                    onPress={() => {
+                      deleteSub(SESSION.MORNING, index);
                     }}>
                     <Octicons name={'trashcan'} size={20} color={'gray'} />
                   </TouchableOpacity>
@@ -190,8 +255,23 @@ const TableSchedule = ({day}) => {
                     style={{position: 'absolute', top: 5, right: 5}}>
                     <Octicons name="three-bars" size={15} color="gray" />
                   </TouchableOpacity> */}
-                  <Text style={styles.subjectText}>{value.name}</Text>
-                  <Text style={styles.noteText}>g/v: {value.teacher}</Text>
+                  {isEdit ? (
+                    <>
+                      <TextInput
+                        placeholder="Nhập tên môn học"
+                        defaultValue={value.name}
+                      />
+                      {/* <TextInput
+                        placeholder="Nhập tên giáo viên"
+                        defaultValue={value.teacher}
+                      /> */}
+                    </>
+                  ) : (
+                    <>
+                      <Text style={styles.subjectText}>{value.name}</Text>
+                      {/* <Text style={styles.noteText}>g/v: {value.teacher}</Text> */}
+                    </>
+                  )}
                   {/* <ScrollView style={{height: 50}}> */}
                   {/* <Text style={styles.noteText}>note: {value.note}</Text> */}
                   {/* </ScrollView> */}
@@ -204,6 +284,9 @@ const TableSchedule = ({day}) => {
                       height: '80%',
                       justifyContent: 'center',
                       alignItems: 'center',
+                    }}
+                    onPress={() => {
+                      deleteSub(SESSION.AFTERNOON, index);
                     }}>
                     <Octicons name={'trashcan'} size={20} color={'gray'} />
                   </TouchableOpacity>

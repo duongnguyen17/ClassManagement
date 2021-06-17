@@ -67,11 +67,12 @@ const TagTeacher = props => {
               alignItems: 'center',
               marginVertical: 5,
               justifyContent: 'space-between',
+              overflow: 'hidden',
             }}>
             <View>
               <Text style={{fontWeight: '600'}}>Họ tên: </Text>
             </View>
-            <Text style={{fontWeight: '600', fontSize: 18}}>
+            <Text style={{fontWeight: '600', fontSize: 18}} numberOfLines={1}>
               {userInfor.name}
             </Text>
           </View>

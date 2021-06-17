@@ -87,7 +87,7 @@ export const SubjectSchema = {
   properties: {
     _id: 'int',
     name: 'string',
-    teacher: `${SCHEMA.TEACHER}`,
+    // teacher: `${SCHEMA.TEACHER}?`,
   },
 };
 
@@ -467,10 +467,27 @@ export const nghiHoc = async (studentId, state, date) => {
         }
       }
     });
-    // let dateTemp = studentInfor.dayOff.find(obj => obj.date == date);
-    // if (dateTemp != undefined) {
+  } catch (error) {
+    switch (error) {
+      default:
+        console.log(error.message);
+    }
+  }
+};
 
-    // }
+//change day of Schedule
+export const changeDaySchedule = async newDaySchedule => {
+  try {
+    // console.log(`newDaySchedule`, newDaySchedule);
+    const realm = await Realm.open(configureRealm);
+    realm.write(() => {
+      let daySchedule = realm.objectForPrimaryKey(
+        SCHEMA.DAY,
+        newDaySchedule._id,
+      );
+      daySchedule.subMorning = newDaySchedule.subMorning;
+      daySchedule.subAfternoon = newDaySchedule.subAfternoon;
+    });
   } catch (error) {
     switch (error) {
       default:

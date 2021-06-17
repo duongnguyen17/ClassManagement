@@ -10,7 +10,7 @@ import {
 //import DatePicker from 'react-native-date-picker';
 import Octicons from 'react-native-vector-icons/Octicons';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import TableStudent from '../components/TableStudent';
+import TableStudent from '../components/table/TableStudent';
 import {getAllStudents, nghiHoc} from '../realm';
 const Attendance = props => {
   const [students, setStudents] = useState([]);

@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import PopupTeacher from '../components/PopupTeacher';
+import PopupTeacher from '../components/popup/PopupTeacher';
 import {getAllTeacher, addTeacher, deleteTeacher, editTeacher} from '../realm';
 import ReAskPopup from '../components/popup/ReAskPopup';
-import TagUser from '../components/TagUser';
+import TagUser from '../components/tag/TagUser';
 
 const Teachers = props => {
   const [isEdit, setIsEdit] = useState(false);

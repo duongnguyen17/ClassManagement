@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, FlatList} from 'react-native';
-import TagName from './TagName';
+import TagName from '../tag/TagName';
 
 const TableStudent = props => {
   const {students, nghiHoc, date} = props;

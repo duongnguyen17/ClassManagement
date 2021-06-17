@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {StyleSheet, TouchableOpacity, Image, Text, View} from 'react-native';
-import TagInfor from '../components/TagInfor';
+import TagInfor from './TagInfor';
 const TagSubject = props => {
   const {subjectInfor} = props;
   return (

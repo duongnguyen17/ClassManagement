@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import TagUser from '../components/TagUser';
+import TagUser from '../components/tag/TagUser';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ReAskPopup from '../components/popup/ReAskPopup';
 import PopupStudent from '../components/popup/PopupStudent';

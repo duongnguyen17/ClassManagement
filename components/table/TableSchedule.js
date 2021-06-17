@@ -9,8 +9,8 @@ import {
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {changeDaySchedule} from '../realm';
-import {SESSION} from '../constants';
+import {changeDaySchedule} from '../../realm';
+import {SESSION} from '../../constants';
 const TableSchedule = ({day}) => {
   // console.log(`day`, day);
   const [subMorning, setSubMorning] = useState([...day.subMorning]);

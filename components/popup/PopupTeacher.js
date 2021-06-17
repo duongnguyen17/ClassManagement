@@ -72,7 +72,7 @@ const PopupTeacher = props => {
             }}
             source={
               avatar === undefined || avatar === ''
-                ? require('../assets/teacher.jpg')
+                ? require('../../assets/teacher.jpg')
                 : {uri: avatar}
             }
           />

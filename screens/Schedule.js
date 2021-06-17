@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import TableSchedule from '../components/TableSchedule';
+import TableSchedule from '../components/table/TableSchedule';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {getSchedule} from '../realm';
 const Schedule = props => {

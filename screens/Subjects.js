@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import TagSubject from '../components/TagSubject';
+import TagSubject from '../components/tag/TagSubject';
 const Subjects = () => {
   const [subjects, setSubjects] = useState([
     {

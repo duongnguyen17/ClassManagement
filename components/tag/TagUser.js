@@ -48,8 +48,8 @@ const TagTeacher = props => {
               userInfor.avatar === '' ||
               userInfor.avatar === null
                 ? position === 'teacher'
-                  ? require('../assets/teacher.jpg')
-                  : require('../assets/student.png')
+                  ? require('../../assets/teacher.jpg')
+                  : require('../../assets/student.png')
                 : {uri: userInfor.avatar}
             }
           />

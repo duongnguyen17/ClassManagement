@@ -10,8 +10,8 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {getAllClass, addClass, editClass, deleteClass} from '../realm';
 import TagClass from '../components/TagClass';
-import PopupClass from '../components/PopupClass';
-import ReAskPopup from '../components/ReAskPopup';
+import PopupClass from '../components/popup/PopupClass';
+import ReAskPopup from '../components/popup/ReAskPopup';
 const Classes = props => {
   const [isEdit, setIsEdit] = useState(false);
   const [isShowPopup, setIsShowPopup] = useState(false);

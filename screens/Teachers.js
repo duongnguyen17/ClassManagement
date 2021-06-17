@@ -9,7 +9,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PopupTeacher from '../components/PopupTeacher';
 import {getAllTeacher, addTeacher, deleteTeacher, editTeacher} from '../realm';
-import ReAskPopup from '../components/ReAskPopup';
+import ReAskPopup from '../components/popup/ReAskPopup';
 import TagUser from '../components/TagUser';
 
 const Teachers = props => {

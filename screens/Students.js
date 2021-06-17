@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import TagUser from '../components/TagUser';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ReAskPopup from '../components/ReAskPopup';
-import PopupStudent from '../components/PopupStudent';
+import ReAskPopup from '../components/popup/ReAskPopup';
+import PopupStudent from '../components/popup/PopupStudent';
 import {addStudent, getAllStudents, editStudent, deleteStudent} from '../realm';
 const Students = props => {
   const [students, setStudents] = useState([]);

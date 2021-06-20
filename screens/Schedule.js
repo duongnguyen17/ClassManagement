@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import TableSchedule from '../components/table/TableSchedule';
+import TableScheduleTemp from '../components/table/TableScheduleTemp'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {getSchedule} from '../realm';
 import {useIsFocused} from '@react-navigation/native';
@@ -24,7 +25,7 @@ const Schedule = props => {
   }, [isFocused]);
   const m_getSchedule = async () => {
     let scheduleTemp = await getSchedule(props.classId);
-    console.log(`scheduleTemp`, scheduleTemp);
+    //console.log(`scheduleTemp`, scheduleTemp);
     setSchedule(scheduleTemp);
   };
 
@@ -50,7 +51,7 @@ const Schedule = props => {
           />
         </TouchableOpacity> */}
         {schedule.days.map((value, index) => (
-          <TableSchedule day={value} key={value._id} />
+          <TableScheduleTemp day={value} key={value._id} />
         ))}
       </ScrollView>
     </View>

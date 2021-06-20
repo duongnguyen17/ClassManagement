@@ -29,13 +29,13 @@ const TabBar = () => {
         },
       }}>
       <Tab.Screen
-        name="Teachers"
+        name="Giáo Viên"
         component={Teachers}
         options={{
           tabBarIcon: ({focused, color}) => (
             <FontAwesome5
               name="chalkboard-teacher"
-              size={focused ? 24 : 30}
+              size={focused ? 30 : 24}
               color={focused ? color : '#222222'}
               focused={focused}
             />
@@ -43,13 +43,13 @@ const TabBar = () => {
         }}
       />
       <Tab.Screen
-        name="Classes"
+        name="Lớp"
         component={Classes}
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <MaterialCommunityIcons
               name="google-classroom"
-              size={focused ? 23 : 30}
+              size={focused ? 30 : 24}
               color={focused ? color : '#222222'}
               focused={focused}
             />
@@ -94,7 +94,11 @@ const App = () => {
             },
           })}
         />
-        <MainStack.Screen name="StudentInfor" component={StudentInfor} options={{title:'Thông tin học sinh'}} />
+        <MainStack.Screen
+          name="StudentInfor"
+          component={StudentInfor}
+          options={{title: 'Thông tin học sinh'}}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );

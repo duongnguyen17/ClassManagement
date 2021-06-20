@@ -10,25 +10,13 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {changeDaySchedule} from '../../realm';
-import {SESSION} from '../../constants';
+import {SESSION, SUBJECT, SUBJECTNAME} from '../../constants';
+import RNPickerSelect from 'react-native-picker-select';
 const TableSchedule = ({day}) => {
   // console.log(`day`, day);
   const [subMorning, setSubMorning] = useState([...day.subMorning]);
   const [subAfternoon, setSubAfternoon] = useState([...day.subAfternoon]);
   const [isEdit, setIsEdit] = useState(false);
-  // useEffect(() => {
-  //   makeACopy();
-  // }, []);
-  //make a copy
-  // const makeACopy = () => {
-  //   let subTemp = [...day.subMorning];
-
-  //   // Object.assign(subTemp, day.subMorning);
-  //   setSubMorning(subTemp);
-  //   subTemp = [];
-  //   Object.assign(subTemp, day.subAfternoon);
-  //   setSubAfternoon(subTemp);
-  // };
 
   const renLession = num => {
     let arr = [];
@@ -56,7 +44,7 @@ const TableSchedule = ({day}) => {
   };
 
   const addSub = session => {
-    let newSub = {_id: Date.now(), name: ''};
+    let newSub = '';
     if (session == SESSION.MORNING) {
       // let subMorningTemp = subMorning;
       //console.log(`newSub`, newSub);
@@ -80,6 +68,7 @@ const TableSchedule = ({day}) => {
       setSubAfternoon(subTemp);
     }
   };
+  //console.log(`subMorning`, subMorning);
   return (
     <View style={styles.container}>
       <View
@@ -128,99 +117,104 @@ const TableSchedule = ({day}) => {
           <View style={styles.sessionColumn}>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>Sáng</Text>
           </View>
-          <View style={styles.lessionColumn}>
-            {renLession(subMorning.length)}
-            {isEdit ? (
-              <View
-                style={[
-                  styles.tile,
-                  {alignItems: 'center', justifyContent: 'center', height: 20},
-                ]}></View>
-            ) : null}
-          </View>
-          <View style={styles.subjectColumn}>
+          <View>
             {subMorning.map((value, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.tile,
-                  {
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  },
-                ]}>
+              <View style={{flexDirection: 'row'}} key={index}>
                 <View
-                  style={{
-                    marginHorizontal: 10,
-                    marginVertical: 5,
-                  }}>
-                  {/* <TouchableOpacity
-                    style={{position: 'absolute', top: 5, right: 5}}>
-                    <Octicons name="three-bars" size={15} color="gray" />
-                  </TouchableOpacity> */}
-                  {isEdit ? (
-                    <>
-                      <TextInput
-                        placeholder="Nhập tên môn học"
-                        defaultValue={value.name}
-                        onChangeText={text => {
-                          subMorning[index].name = text;
-                        }}
-                        style={{color: '#000'}}
-                      />
-                      {/* <TextInput
-                        placeholder="Nhập tên giáo viên"
-                        defaultValue={value.teacher}
-                        onChangeText={text => {
-                          subMorning[index].teacher = text;
-                        }}
-                      /> */}
-                    </>
-                  ) : (
-                    <>
-                      <Text style={styles.subjectText}>{value.name}</Text>
-                      {/* <Text style={styles.noteText}>g/v: {value.teacher}</Text> */}
-                    </>
-                  )}
-
-                  {/* <ScrollView style={{height: 30}}> */}
-                  {/* <Text style={styles.noteText}>note: {value.note}</Text> */}
-                  {/* </ScrollView> */}
+                  style={[
+                    styles.tile,
+                    {alignItems: 'center', justifyContent: 'center'},
+                  ]}>
+                  <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                    {index + 1}
+                  </Text>
                 </View>
-                {isEdit ? (
-                  <TouchableOpacity
-                    style={{
-                      marginHorizontal: 5,
-                      width: 30,
-                      height: '80%',
-                      justifyContent: 'center',
+                <View
+                  style={[
+                    styles.tile,
+                    {
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
                       alignItems: 'center',
-                    }}
-                    onPress={() => {
-                      deleteSub(SESSION.MORNING, index);
+                    },
+                  ]}>
+                  <View
+                    style={{
+                      marginHorizontal: 10,
+                      marginVertical: 5,
                     }}>
-                    <Octicons name={'trashcan'} size={20} color={'gray'} />
-                  </TouchableOpacity>
-                ) : null}
+                    {isEdit ? (
+                      <RNPickerSelect
+                        placeholder={{
+                          label: 'Chọn môn học...',
+                          value: null,
+                        }}
+                        items={SUBJECT}
+                        onValueChange={value2 => {
+                          subMorning[index] = value2;
+                        }}
+                        value={value}
+                      />
+                    ) : (
+                      <Text style={styles.subjectText}>
+                        {SUBJECTNAME[value]}
+                      </Text>
+                    )}
+
+                    {/* <ScrollView style={{height: 30}}> */}
+                    {/* <Text style={styles.noteText}>note: {value.note}</Text> */}
+                    {/* </ScrollView> */}
+                  </View>
+                  {isEdit ? (
+                    <TouchableOpacity
+                      style={{
+                        marginHorizontal: 5,
+                        width: 30,
+                        height: '80%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                      onPress={() => {
+                        deleteSub(SESSION.MORNING, index);
+                      }}>
+                      <Octicons name={'trashcan'} size={20} color={'gray'} />
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
               </View>
             ))}
             {isEdit ? (
-              <View
-                style={[
-                  styles.tile,
-                  {alignItems: 'center', justifyContent: 'center', height: 40},
-                ]}>
-                <TouchableOpacity
-                  onPress={() => {
-                    addSub(SESSION.MORNING);
-                  }}>
-                  <MaterialIcons
-                    name={'add-circle-outline'}
-                    size={35}
-                    color={'#3399ff'}
-                  />
-                </TouchableOpacity>
+              <View>
+                <View
+                  style={[
+                    styles.tile,
+                    {
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 20,
+                    },
+                  ]}
+                />
+                <View
+                  style={[
+                    styles.tile,
+                    {
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 40,
+                    },
+                  ]}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      addSub(SESSION.MORNING);
+                    }}>
+                    <MaterialIcons
+                      name={'add-circle-outline'}
+                      size={35}
+                      color={'#3399ff'}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             ) : null}
           </View>
@@ -261,7 +255,7 @@ const TableSchedule = ({day}) => {
                       <TextInput
                         placeholder="Nhập tên môn học"
                         defaultValue={value.name}
-                        style={{ color: '#000'}}
+                        style={{color: '#000'}}
                       />
                       {/* <TextInput
                         placeholder="Nhập tên giáo viên"

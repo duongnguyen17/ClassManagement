@@ -1,5 +1,14 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Image, Text, TextInput} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Alert,
+  TouchableOpacity,
+  Image,
+  Text,
+  TextInput,
+} from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+
 import Dialog, {
   DialogFooter,
   DialogButton,
@@ -10,10 +19,37 @@ import Dialog, {
 const PopupClass = props => {
   const {dataEdit, visible, onPressCancel, onPressOK, isEdit} = props;
 
-  const [name, setName] = useState(dataEdit.name);
-  const [year, setYear] = useState(dataEdit.year);
-  const [teacher, setTeacher] = useState(dataEdit.teacher); //tên giáo viên
-
+  const [items, setItems] = useState(props.items);
+  const [name, setName] = useState(null);
+  const [year, setYear] = useState(null);
+  const [teacher, setTeacher] = useState(null); //tên giáo viên
+  useEffect(() => {
+    setName(dataEdit.name);
+    setYear(dataEdit.year);
+    setTeacher(dataEdit.teacher._id);
+    setItems(props.items);
+  }, [dataEdit]);
+  const submit = () => {
+    if (!name) {
+      Alert.alert('Tên lớp không đúng!', 'Không được bỏ trống tên lớp.', [
+        {text: 'OK', onPress: () => {}},
+      ]);
+    } else if (!teacher) {
+      Alert.alert('Sai giáo viên!', 'Không được để trống GVCN.', [
+        {text: 'OK', onPress: () => {}},
+      ]);
+    } else {
+      let classData = {
+        _id: dataEdit._id === undefined ? Date.now() : dataEdit._id,
+        name: name,
+        year: year,
+        teacher: teacher,
+      };
+      // console.log(`teacher`, classData.teacher);
+      onPressOK(classData);
+    }
+  };
+  //console.log(`items`, items);
   return (
     <Dialog
       visible={visible}
@@ -23,92 +59,76 @@ const PopupClass = props => {
       footer={
         <DialogFooter>
           <DialogButton text="CANCEL" onPress={onPressCancel} />
-          <DialogButton
-            text="OK"
-            onPress={() => {
-              let classData = {
-                _id: dataEdit._id,
-                name: name,
-                year: year,
-                teacher: teacher,
-              };
-              //console.log(`userData`, userData);
-              onPressOK(classData);
-            }}
-          />
+          <DialogButton text="OK" onPress={submit} />
         </DialogFooter>
       }>
-      <DialogContent
-        style={{
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          height: 200,
-        }}>
+      <DialogContent>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
+            height: 200,
           }}>
-          <View>
-            <Text style={{fontWeight: '600'}}>Lớp: </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text style={{fontWeight: '600'}}>Lớp: </Text>
+            </View>
+            <View>
+              <TextInput
+                placeholder="Nhập tên lớp..."
+                style={{fontWeight: '600', fontSize: 18, color: '#000'}}
+                //defaultValue={dataEdit.name}
+                value={name}
+                style={{
+                  width: 200,
+                }}
+                onChangeText={text => {
+                  setName(text);
+                }}
+              />
+            </View>
           </View>
-          <View>
-            <TextInput
-              style={{fontWeight: '600', fontSize: 18, color: '#000'}}
-              //defaultValue={dataEdit.name}
-              value={name}
-              style={{
-                width: 200,
-              }}
-              onChangeText={text => {
-                setName(text);
-              }}
-            />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text style={{fontWeight: '600'}}>Khoá: </Text>
+            </View>
+            <View>
+              <TextInput
+                placeholder="Nhập khoá học..."
+                style={{fontWeight: '600', fontSize: 18, color: '#000'}}
+                //defaultValue={dataEdit.phonenumber}
+                value={year}
+                style={{
+                  width: 200,
+                }}
+                onChangeText={text => {
+                  setYear(text);
+                }}
+              />
+            </View>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <View>
-            <Text style={{fontWeight: '600'}}>Khoá: </Text>
-          </View>
-          <View>
-            <TextInput
-              style={{fontWeight: '600', fontSize: 18, color: '#000'}}
-              //defaultValue={dataEdit.phoneNumber}
-              value={year}
-              style={{
-                width: 200,
-              }}
-              onChangeText={text => {
-                setYear(text);
-              }}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <View>
+          <View style={{}}>
             <Text style={{fontWeight: '600'}}>GVCN: </Text>
-          </View>
-          <View>
-            <TextInput
-              style={{fontWeight: '600', fontSize: 18, color: '#000'}}
-              //defaultValue={dataEdit.phoneNumber}
-              value={teacher}
-              style={{
-                width: 200,
+
+            <RNPickerSelect
+              placeholder={{
+                label: 'Chọn GVCN...',
+                value: null,
               }}
-              onChangeText={text => {
-                setTeacher(text);
+              value={teacher}
+              items={items}
+              onValueChange={value => {
+                //console.log(`value`, value);
+                setTeacher(value);
               }}
             />
           </View>

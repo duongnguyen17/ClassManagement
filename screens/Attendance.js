@@ -49,7 +49,7 @@ const Attendance = props => {
     students.forEach(element => {
       if (element.name.includes(strSearch)) {
         result.push(element);
-      } else if (element.phoneNumber.includes(strSearch)) {
+      } else if (element.phonenumber.includes(strSearch)) {
         result.push(element);
       }
     });

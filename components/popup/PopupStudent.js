@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Image, Text, TextInput} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  TextInput,
+  Alert,
+} from 'react-native';
 import Dialog, {
   DialogFooter,
   DialogButton,
@@ -10,11 +17,15 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 const PopupStudent = props => {
   const {dataEdit, visible, onPressCancel, onPressOK, isEdit} = props;
-  const [name, setName] = useState(dataEdit.name);
+  const [name, setName] = useState(null);
   // const [grade, setGrade] = useState(dataEdit.grade);
-  const [phoneNumber, setPhoneNumber] = useState(dataEdit.phoneNumber);
-  const [avatar, setAvatar] = useState(dataEdit.avatar);
-
+  const [phonenumber, setPhonenumber] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  useEffect(() => {
+    setName(dataEdit.name);
+    setPhonenumber(dataEdit.phonenumber);
+    setAvatar(dataEdit.avatar);
+  }, [dataEdit]);
   const choosedPhoto = () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       //console.log(`response`, response);
@@ -28,6 +39,56 @@ const PopupStudent = props => {
       }
     });
   };
+  const checkphonenumber = phonenumber => {
+    if (!phonenumber) return true;
+    if (
+      phonenumber.length !== 10 ||
+      phonenumber[0] !== '0' ||
+      phonenumber.match(/[^0-9]/g)
+    ) {
+      return false;
+    } else return true;
+  };
+  //check name
+  const checkName = name => {
+    if (!name || !name.match(/^[a-zA-Z0-9_ ]*$/)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const submit = () => {
+    const checkPhone = checkphonenumber(phonenumber);
+    const checkName1 = checkName(name);
+    if (!checkPhone && !checkName1) {
+      Alert.alert(
+        'Tên và SĐT không đúng!',
+        'Số điện thoại phải bắt đầu bằng 0, có 10 chữ số.\nTên không được có kí tự đặc biệt và không để trống.',
+        [{text: 'OK', onPress: () => {}}],
+      );
+    } else if (!checkPhone) {
+      Alert.alert(
+        'SĐT không đúng!',
+        'Số điện thoại phải bắt đầu bằng 0, có 10 chữ số.',
+        [{text: 'OK', onPress: () => {}}],
+      );
+    } else if (!checkName1) {
+      Alert.alert(
+        'Tên không đúng!',
+        'Tên không được có kí tự đặc biệt và không để trống.',
+        [{text: 'OK', onPress: () => {}}],
+      );
+    } else {
+      let userData = {
+        _id: dataEdit._id,
+        name: name,
+        phonenumber: phonenumber,
+        avatar: avatar,
+      };
+      //console.log(`userData`, userData);
+      onPressOK(userData);
+    }
+  };
   //console.log(`avatar`, avatar);
   return (
     <Dialog
@@ -38,19 +99,7 @@ const PopupStudent = props => {
       footer={
         <DialogFooter>
           <DialogButton text="CANCEL" onPress={onPressCancel} />
-          <DialogButton
-            text="OK"
-            onPress={() => {
-              let userData = {
-                _id: dataEdit._id,
-                name: name,
-                phoneNumber: phoneNumber,
-                avatar: avatar,
-              };
-              //console.log(`userData`, userData);
-              onPressOK(userData);
-            }}
-          />
+          <DialogButton text="OK" onPress={submit} />
         </DialogFooter>
       }>
       <DialogContent
@@ -139,13 +188,13 @@ const PopupStudent = props => {
             <View>
               <TextInput
                 style={{fontWeight: '600', fontSize: 18, color: '#000'}}
-                //defaultValue={dataEdit.phoneNumber}
-                value={phoneNumber}
+                //defaultValue={dataEdit.phonenumber}
+                value={phonenumber}
                 style={{
                   width: 200,
                 }}
                 onChangeText={text => {
-                  setPhoneNumber(text);
+                  setPhonenumber(text);
                 }}
               />
             </View>

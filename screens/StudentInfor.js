@@ -28,7 +28,7 @@ const StudentInfor = props => {
   const [student, setStudent] = useState({
     _id: 1,
     name: '',
-    phoneNumber: '',
+    phonenumber: '',
     avatar: '',
     class: {
       _id: 1,
@@ -135,7 +135,7 @@ const StudentInfor = props => {
                 <View style={styles.content}>
                   <Text>SĐT:</Text>
                 </View>
-                <Text style={styles.textInfor}>{student.phoneNumber}</Text>
+                <Text style={styles.textInfor}>{student.phonenumber}</Text>
               </View>
               <View style={styles.tagInfor}>
                 <View style={styles.content}>

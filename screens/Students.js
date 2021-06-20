@@ -50,7 +50,7 @@ const Students = props => {
     students.forEach(element => {
       if (element.name.includes(strSearch)) {
         result.push(element);
-      } else if (element.phoneNumber.includes(strSearch)) {
+      } else if (element.phonenumber.includes(strSearch)) {
         result.push(element);
       }
     });
@@ -66,7 +66,7 @@ const Students = props => {
     const newStudent = {
       _id: Date.now(),
       name: userData.name,
-      phoneNumber: userData.phoneNumber,
+      phonenumber: userData.phonenumber,
       avatar: userData.avatar,
     };
     await addStudent(props.classId, newStudent);

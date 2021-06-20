@@ -2,8 +2,8 @@ import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Image, Text} from 'react-native';
 import SwipeCustom from './SwipeCustom';
 
-const TagUser = props => {
-  const {position, userInfor, onPressItem, editUser, deleteUser} = props;
+const TagUser = ({position, userInfor, onPressItem, editUser, deleteUser}) => {
+  // console.log(`userInfor`, userInfor);
   return (
     <SwipeCustom
       edit={() => {
@@ -77,7 +77,7 @@ const TagUser = props => {
             </View>
             <View>
               <Text style={{fontWeight: '600', fontSize: 18}}>
-                {userInfor.phoneNumber}
+                {userInfor.phonenumber}
               </Text>
             </View>
           </View>

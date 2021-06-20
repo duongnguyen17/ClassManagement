@@ -10,14 +10,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PopupTeacher from '../components/popup/PopupTeacher';
 import {getAllTeacher, addTeacher, deleteTeacher, editTeacher} from '../realm';
 import ReAskPopup from '../components/popup/ReAskPopup';
-import TagUser2 from '../components/tag/TagUser';
+import TagUser from '../components/tag/TagUser';
 
 const Teachers = props => {
   const isFocused = useIsFocused();
   const [isEdit, setIsEdit] = useState(false);
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowAsk, setIsShowAsk] = useState(false);
-  const [dataEdit, setDataEdit] = useState({});
+  const [dataEdit, setDataEdit] = useState({
+    name: '',
+    phonenumber: '',
+    avatar: '',
+  });
   const [teachers, setTeachers] = useState([]);
   useEffect(() => {
     if (isFocused) getTeachers();
@@ -26,7 +30,7 @@ const Teachers = props => {
   //lấy danh sách các giáo viên
   const getTeachers = async () => {
     const allTeachers = await getAllTeacher();
-    // console.log(`allTeachers1`, allTeachers);
+    //  console.log(`allTeachers1`, allTeachers);
     setTeachers(allTeachers);
   };
 
@@ -35,11 +39,12 @@ const Teachers = props => {
     const newTeacher = {
       _id: Date.now(),
       name: userData.name,
-      phoneNumber: userData.phoneNumber,
+      phonenumber: userData.phonenumber,
       avatar: userData.avatar,
     };
     //console.log(`newTeacher`, newTeacher);
     await addTeacher(newTeacher);
+    setDataEdit({name: '', phonenumber: '', avatar: ''});
     setIsShowPopup(false);
   };
 
@@ -56,10 +61,11 @@ const Teachers = props => {
     //console.log(`teacher`, teacher);
     await editTeacher(teacher);
     setIsShowPopup(false);
+    setDataEdit({name: '', phonenumber: '', avatar: ''});
   };
   const m_deleteTeacher = async () => {
     await deleteTeacher(dataEdit);
-    setDataEdit({});
+    setDataEdit({name: '', phonenumber: '', avatar: ''});
     setIsShowAsk(false);
   };
   return (
@@ -68,7 +74,7 @@ const Teachers = props => {
         style={{marginVertical: 10, flex: 1}}
         data={teachers}
         renderItem={({item, index}) => (
-          <TagUser2
+          <TagUser
             position={'teacher'}
             userInfor={item}
             itemIndex={index}
@@ -102,7 +108,7 @@ const Teachers = props => {
         isEdit={isEdit}
         onPressCancel={() => {
           setIsShowPopup(false);
-          setDataEdit({});
+          setDataEdit({name: '', phonenumber: '', avatar: ''});
         }}
         onPressOK={isEdit ? m_editTeacher : m_addTeacher}
       />

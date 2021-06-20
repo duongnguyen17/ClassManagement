@@ -4,7 +4,7 @@ export const SCHEMA = {
   TEACHER: 'Teacher',
   CLASS: 'Class',
   STUDENT: 'Student',
-  SUBJECT: 'Subject',
+  // SUBJECT: 'Subject',
   DAY: 'Day',
   SCHEDULE: 'Schedule',
   DAYOFF: 'DayOff',
@@ -18,7 +18,7 @@ export const TeacherSchema = {
   properties: {
     _id: 'int', //primaryKey
     name: 'string',
-    phoneNumber: 'string?',
+    phonenumber: 'string?',
     avatar: 'string?',
   },
 };
@@ -44,7 +44,7 @@ export const StudentSchema = {
   properties: {
     _id: 'int',
     name: 'string',
-    phoneNumber: 'string?',
+    phonenumber: 'string?',
     avatar: 'string?',
     class: `${SCHEMA.CLASS}`,
     dayOff: `${SCHEMA.DAYOFF}[]`,
@@ -81,15 +81,15 @@ export const DayOffSchema = {
 // };
 
 //Môn học được quản lý với các thuộc tính: tên
-export const SubjectSchema = {
-  name: SCHEMA.SUBJECT,
-  primaryKey: '_id',
-  properties: {
-    _id: 'int',
-    name: 'string',
-    // teacher: `${SCHEMA.TEACHER}?`,
-  },
-};
+// export const SubjectSchema = {
+//   name: SCHEMA.SUBJECT,
+//   primaryKey: '_id',
+//   properties: {
+//     _id: 'int',
+//     name: 'string',
+//     // teacher: `${SCHEMA.TEACHER}?`,
+//   },
+// };
 
 //ngày trong thời khóa biểu
 export const DaySchema = {
@@ -99,8 +99,8 @@ export const DaySchema = {
   properties: {
     _id: 'int',
     name: 'string',
-    subMorning: `${SCHEMA.SUBJECT}[]`,
-    subAfternoon: `${SCHEMA.SUBJECT}[]`,
+    subMorning: `string[]`,
+    subAfternoon: `string[]`,
   },
 };
 
@@ -123,7 +123,7 @@ export const configureRealm = {
     ScheduleSchema,
     DaySchema,
     DayOffSchema,
-    SubjectSchema,
+    //SubjectSchema,
   ],
   // schemaVersion: 0,
 };
@@ -165,7 +165,7 @@ export const editTeacher = async teacher => {
     realm.write(() => {
       let editTeacher = realm.objectForPrimaryKey(SCHEMA.TEACHER, teacher._id);
       editTeacher.name = teacher.name;
-      editTeacher.phoneNumber = teacher.phoneNumber;
+      editTeacher.phonenumber = teacher.phonenumber;
       editTeacher.avatar = teacher.avatar;
       return editTeacher;
     });
@@ -213,26 +213,26 @@ export const getAllClass = async () => {
 //add Class
 export const addClass = async newClass => {
   try {
-    let isHas = false; //có giáo viên chưa
+    //let isHas = false; //có giáo viên chưa
     const realm = await Realm.open(configureRealm);
-    let allTeacher = realm.objects(SCHEMA.TEACHER);
-    //console.log(`allTeacher`, allTeacher);
-    allTeacher.forEach((value, index) => {
-      if (value.name == newClass.teacher) {
-        newClass.teacher = value;
-        isHas = true;
-      }
-    });
-    if (!isHas) {
-      let newTeacher = {
-        _id: newClass._id,
-        name: newClass.teacher,
-        phoneNumber: '',
-        avatar: '',
-      };
+    // let allTeacher = realm.objects(SCHEMA.TEACHER);
+    // //console.log(`allTeacher`, allTeacher);
+    // allTeacher.forEach((value, index) => {
+    //   if (value.name == newClass.teacher) {
+    //     newClass.teacher = value;
+    //     isHas = true;
+    //   }
+    // });
+    //if (!isHas) {
+    // let newTeacher = {
+    //   _id: newClass._id,
+    //   name: newClass.teacher.name,
+    //   phonenumber: '',
+    //   avatar: '',
+    // };
 
-      newClass.teacher = newTeacher;
-    }
+    // newClass.teacher = newTeacher;
+    //}
     let newSchedule = {
       _id: newClass._id,
       days: [
@@ -400,7 +400,7 @@ export const editStudent = async studentData => {
         studentData._id,
       );
       editStudent.name = studentData.name;
-      editStudent.phoneNumber = studentData.phoneNumber;
+      editStudent.phonenumber = studentData.phonenumber;
       return editStudent;
     });
   } catch (error) {
@@ -499,14 +499,14 @@ export const changeDaySchedule = async newDaySchedule => {
 };
 
 //get all subject of a class
-export const getAllSubject = async () => {
-  try {
-    const realm = await Realm.open(configureRealm);
-    let allSubject = realm.objects(SCHEMA.SUBJECT).filter((value, index) => {});
-  } catch (error) {
-    switch (error) {
-      default:
-        console.log(error.message);
-    }
-  }
-};
+// export const getAllSubject = async () => {
+//   try {
+//     const realm = await Realm.open(configureRealm);
+//     let allSubject = realm.objects(SCHEMA.SUBJECT).filter((value, index) => {});
+//   } catch (error) {
+//     switch (error) {
+//       default:
+//         console.log(error.message);
+//     }
+//   }
+// };

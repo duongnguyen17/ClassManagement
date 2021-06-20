@@ -8,26 +8,51 @@ import {
   FlatList,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {getAllClass, addClass, editClass, deleteClass} from '../realm';
+import {
+  getAllClass,
+  addClass,
+  editClass,
+  deleteClass,
+  getAllTeacher,
+} from '../realm';
 import TagClass from '../components/tag/TagClass';
 import PopupClass from '../components/popup/PopupClass';
 import ReAskPopup from '../components/popup/ReAskPopup';
+// import RNPickerSelect from 'react-native-picker-select';
 const Classes = props => {
   const [isEdit, setIsEdit] = useState(false);
+  const [teachers, setTeachers] = useState([]);
+  const [items, setItems] = useState([]);
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowAsk, setIsShowAsk] = useState(false);
-  const [dataEdit, setDataEdit] = useState({});
+  const [dataEdit, setDataEdit] = useState({teacher: {}});
   const [classes, setClasses] = useState([]);
+  // const [test, setTest] = useState(null);
 
   useEffect(() => {
     getClasses();
+    getTeachers();
   }, []);
+  useEffect(() => {
+    setItems(x => [
+      ...teachers.map((value, index) => ({
+        label: value.name,
+        value: value,
+      })),
+    ]);
+  }, [teachers]);
 
   //lấy danh sách lớp học
   const getClasses = async () => {
     const allClasses = await getAllClass();
     //  console.log(`allClasses`, allClasses);
     setClasses(allClasses);
+  };
+  //lấy danh sách các giáo viên
+  const getTeachers = async () => {
+    const allTeachers = await getAllTeacher();
+    //  console.log(`allTeachers1`, allTeachers);
+    setTeachers(allTeachers);
   };
   //thêm lớp học
   const m_addClass = async classData => {
@@ -40,6 +65,7 @@ const Classes = props => {
     };
     await addClass(newClass);
     setIsShowPopup(false);
+    setDataEdit({teacher: {}});
   };
   //show edit
   const edit = classData => {
@@ -56,19 +82,20 @@ const Classes = props => {
   const m_editClass = async classData => {
     await editClass(classData);
     setIsShowPopup(false);
+    setDataEdit({teacher: {}});
   };
 
   //delete class
   const m_deleteClass = async () => {
     await deleteClass(dataEdit);
-    setDataEdit({});
+    setDataEdit({teacher: {}});
     setIsShowAsk(false);
   };
   //xem chi tiết lớp học đó
   const gotoClass = (classId, className) => {
     props.navigation.navigate('Class', {_id: classId, name: className});
   };
-
+  //console.log(`items1`, items);
   return (
     <SafeAreaView style={{flex: 1}}>
       <FlatList
@@ -85,6 +112,17 @@ const Classes = props => {
         )}
         keyExtractor={item => item._id}
       />
+      {/* <RNPickerSelect
+        placeholder={{
+          label: 'Chọn GVCN...',
+          value: null,
+        }}
+        value={test}
+        items={items}
+        onValueChange={value => {
+          setTest(value);
+        }}
+      /> */}
       <TouchableOpacity
         style={{
           position: 'absolute',
@@ -103,11 +141,12 @@ const Classes = props => {
       </TouchableOpacity>
       <PopupClass
         dataEdit={dataEdit}
+        items={items}
         visible={isShowPopup}
         isEdit={isEdit}
         onPressCancel={() => {
           setIsShowPopup(false);
-          setDataEdit({});
+          setDataEdit({teacher: {}});
         }}
         onPressOK={isEdit ? m_editClass : m_addClass}
       />

@@ -13,7 +13,7 @@ const SwipeCustom = props => {
         width: 128,
         flexDirection: 'row',
       }}>
-      {renderRightAction('edit', props.edit, '#ffab00', 128, progress)}
+      {renderRightAction('edit', props.edit, '#0066ff', 128, progress)}
       {renderRightAction('trash', props.delete, '#dd2c00', 64, progress)}
     </View>
   );

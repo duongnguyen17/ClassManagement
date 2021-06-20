@@ -118,7 +118,7 @@ const PopupStudent = props => {
               borderRadius: 5,
             }}
             source={
-              avatar === undefined || avatar === ''
+              avatar === undefined || avatar === '' || avatar === null
                 ? require('../../assets/student.png')
                 : {uri: avatar}
             }

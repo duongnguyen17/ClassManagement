@@ -25,52 +25,76 @@ const TagClass = props => {
             marginVertical: 10,
             flexDirection: 'column',
           }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 5,
-              justifyContent: 'space-between',
-            }}>
-            <View>
-              <Text style={{fontWeight: '600'}}>Lớp: </Text>
-            </View>
-            <Text style={{fontWeight: '600', fontSize: 18}}>
-              {classData.name}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 5,
-              justifyContent: 'space-between',
-            }}>
-            <View>
-              <Text style={{fontWeight: '600'}}>Khoá: </Text>
-            </View>
-            <View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '40%',
+                marginVertical: 5,
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Text style={{fontWeight: '600'}}>Lớp: </Text>
+              </View>
               <Text style={{fontWeight: '600', fontSize: 18}}>
-                {classData.year}
+                {classData.name}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 5,
+              }}>
+              <View>
+                <Text style={{fontWeight: '600'}}>Sĩ số: </Text>
+              </View>
+              <Text style={{fontWeight: '600', fontSize: 18}}>
+                {classData.students.length}
               </Text>
             </View>
           </View>
+
           <View
             style={{
               flexDirection: 'row',
-              alignItems: 'center',
-              marginVertical: 5,
+              width: '60%',
               justifyContent: 'space-between',
             }}>
-            <View>
-              <Text style={{fontWeight: '600'}}>GVCN: </Text>
-            </View>
-            <View>
-              {classData.teacher !== null ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 5,
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Text style={{fontWeight: '600'}}>Khoá: </Text>
+              </View>
+              <View>
                 <Text style={{fontWeight: '600', fontSize: 18}}>
-                  {classData.teacher.name}
+                  {classData.year}
                 </Text>
-              ) : null}
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 5,
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Text style={{fontWeight: '600'}}>GVCN: </Text>
+              </View>
+              <View>
+                {classData.teacher !== null ? (
+                  <Text style={{fontWeight: '600', fontSize: 18}}>
+                    {classData.teacher.name}
+                  </Text>
+                ) : null}
+              </View>
             </View>
           </View>
         </View>

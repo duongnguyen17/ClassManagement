@@ -18,6 +18,7 @@ import {
 import TagClass from '../components/tag/TagClass';
 import PopupClass from '../components/popup/PopupClass';
 import ReAskPopup from '../components/popup/ReAskPopup';
+import {useIsFocused} from '@react-navigation/native';
 // import RNPickerSelect from 'react-native-picker-select';
 const Classes = props => {
   const [isEdit, setIsEdit] = useState(false);
@@ -27,12 +28,15 @@ const Classes = props => {
   const [isShowAsk, setIsShowAsk] = useState(false);
   const [dataEdit, setDataEdit] = useState({teacher: {}});
   const [classes, setClasses] = useState([]);
+  const isFocused = useIsFocused();
   // const [test, setTest] = useState(null);
 
   useEffect(() => {
-    getClasses();
-    getTeachers();
-  }, []);
+    if (isFocused) {
+      getClasses();
+      getTeachers();
+    }
+  }, [isFocused]);
   useEffect(() => {
     setItems(x => [
       ...teachers.map((value, index) => ({

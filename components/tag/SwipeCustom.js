@@ -1,11 +1,11 @@
 import React, {useRef} from 'react';
-import {View, Animated} from 'react-native';
+import {View} from 'react-native';
 import {RectButton, Swipeable} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 //props gồm edit, delete, children
 const SwipeCustom = props => {
   const swipeCustom = useRef(null);
-  const renderRightActions = progress => (
+  const renderRightActions = () => (
     <View
       style={{
         marginVertical: 5,
@@ -13,25 +13,20 @@ const SwipeCustom = props => {
         width: 128,
         flexDirection: 'row',
       }}>
-      {renderRightAction('edit', props.edit, '#0066ff', 128, progress)}
-      {renderRightAction('trash', props.delete, '#dd2c00', 64, progress)}
+      {renderRightAction('edit', props.edit, '#0066ff')}
+      {renderRightAction('trash', props.delete, '#dd2c00')}
     </View>
   );
 
-  const renderRightAction = (icon, press, color, x, progress) => {
-    const trans = progress.interpolate({
-      inputRange: [0, 1],
-      outputRange: [x, 0],
-    });
+  const renderRightAction = (icon, press, color) => {
     const pressHandler = () => {
       close();
       press();
     };
     return (
-      <Animated.View
+      <View
         style={{
           flex: 1,
-          transform: [{translateX: 0}],
           marginHorizontal: 2,
         }}>
         <RectButton
@@ -44,7 +39,7 @@ const SwipeCustom = props => {
           onPress={pressHandler}>
           <FontAwesome5 name={icon} size={30} color={color} />
         </RectButton>
-      </Animated.View>
+      </View>
     );
   };
 

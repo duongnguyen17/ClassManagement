@@ -14,6 +14,14 @@ import {STATE_STUDENT} from '../constants';
 import {getStudent} from '../realm';
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
+const date_nghi_co_phep = {
+  date: 'Wed, 14 Jun 2017',
+  count: STATE_STUDENT.NGHI_PHEP,
+};
+const date_nghi_khong_phep = {
+  date: 'Thu, 15 Jun 2017',
+  count: STATE_STUDENT.NGHI_KHONG_PHEP,
+};
 const StudentInfor = props => {
   const scrollView = useRef(null);
   const scrollHori = useRef(null);
@@ -30,24 +38,19 @@ const StudentInfor = props => {
         name: '',
       },
     },
-    dayOff: [
-      {
-        date: '',
-        count: null,
-      },
-    ],
+    dayOff: [{}],
   });
   const [dayOff, setDayOff] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const date = new Date();
   useEffect(() => {
-    m_getStudent();
     scrollHori.current.scrollToEnd({animated: true});
+    m_getStudent();
   }, []);
   useEffect(() => {
     if (searchInput == '') {
-      setSearchResult(student.dayOff);
+      setSearchResult(dayOff);
     } else {
       let result = findDayOff(searchInput);
       //console.log(`result`, result);
@@ -60,21 +63,23 @@ const StudentInfor = props => {
     let studentInfor = await getStudent(props.route.params._id);
     //console.log(`studentInfor`, studentInfor);
     setStudent(studentInfor);
+    setSearchResult(studentInfor.dayOff);
     setDayOff(studentInfor.dayOff);
   };
+  //console.log(`dayOff`, dayOff);
   //hàm tìm kiếm ngày nghỉ
   const findDayOff = strSearch => {
     let result = [];
-    student.dayOff.forEach(element => {
+    dayOff.forEach(element => {
       if (element.date.includes(strSearch)) {
         result.push(element);
       } else {
         let countFind = 1;
-        if (strSearch.includes('có phép') || strSearch.includes('Có phép')) {
+        if ('có phép'.includes(strSearch) || 'Có phép'.includes(strSearch)) {
           countFind = STATE_STUDENT.NGHI_PHEP;
         } else if (
-          strSearch.includes('không phép') ||
-          strSearch.includes('Không phép')
+          'không phép'.includes(strSearch) ||
+          'Không phép'.includes(strSearch)
         ) {
           countFind = STATE_STUDENT.NGHI_KHONG_PHEP;
         }
@@ -155,7 +160,7 @@ const StudentInfor = props => {
           </Text>
           <ScrollView horizontal={true} ref={scrollHori}>
             <ContributionGraph
-              values={dayOff}
+              values={[date_nghi_co_phep, date_nghi_khong_phep, ...dayOff]}
               endDate={date}
               numDays={365}
               width={1180}
@@ -165,7 +170,7 @@ const StudentInfor = props => {
                 backgroundGradientTo: '#fff',
                 decimalPlaces: 2,
                 color: state => {
-                  //console.log(`state`, state);
+                  // console.log(`state`, state);
                   switch (state) {
                     case 0.8:
                       return 'rgb(0, 0, 0)';
@@ -174,7 +179,7 @@ const StudentInfor = props => {
                     case 1:
                       return 'rgb(255, 0, 0)';
                     default:
-                      return 'rgb(204, 230, 255)';
+                      return 'rgb(230, 243, 255)';
                   }
                 }, //chỉnh màu ô tại đây
               }}
@@ -235,6 +240,7 @@ const StudentInfor = props => {
                 borderBottomWidth: 0.5,
                 borderBottomColor: 'black',
                 marginHorizontal: 20,
+                color: '#000',
               }}
               placeholder={'Nhập ngày hoặc trạng thái'}
               onChangeText={text => {

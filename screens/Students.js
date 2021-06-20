@@ -25,7 +25,7 @@ const Students = props => {
   const [isShowAsk, setIsShowAsk] = useState(false);
   useEffect(() => {
     m_getAllStudents();
-  }, []);
+  }, [isEdit]);
   useEffect(() => {
     scrollView.current.scrollTo({x: 0, y: 74, animated: true});
     if (searchInput == '') {
@@ -42,6 +42,7 @@ const Students = props => {
     let allStudents = await getAllStudents(props.classId);
     //console.log(`allStudents`, allStudents);
     setStudents(allStudents);
+    setSearchResult(allStudents);
   };
   //hàm tìm kiếm theo tên và SĐT
   const findName = strSearch => {
@@ -99,6 +100,7 @@ const Students = props => {
             borderBottomWidth: 0.5,
             borderBottomColor: 'black',
             marginHorizontal: 20,
+            color: '#000',
           }}
           placeholder={'Nhập tên hoặc SĐT'}
           onChangeText={text => {

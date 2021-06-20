@@ -1,28 +1,17 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Image, Text} from 'react-native';
-import Swipeout from 'react-native-swipeout';
-const TagTeacher = props => {
-  const {position, userInfor, onPressItem, editUser, deleteUser} = props;
-  //console.log(`userInfor`, userInfor);
+import SwipeCustom from './SwipeCustom';
 
+const TagUser2 = props => {
+  const {position, userInfor, onPressItem, editUser, deleteUser} = props;
   return (
-    <Swipeout
-      right={[
-        {
-          text: 'Edit',
-          onPress: () => {
-            editUser(userInfor);
-          },
-        },
-        {
-          text: 'Delete',
-          onPress: () => {
-            deleteUser(userInfor);
-          },
-        },
-      ]}
-      autoClose={true}
-      style={{backgroundColor: '#f2f2f2'}}>
+    <SwipeCustom
+      edit={() => {
+        editUser(userInfor);
+      }}
+      delete={() => {
+        deleteUser(userInfor);
+      }}>
       <TouchableOpacity
         activeOpacity={0.8}
         style={[styles.tag, {flexDirection: 'row', alignItems: 'center'}]}
@@ -94,10 +83,10 @@ const TagTeacher = props => {
           </View>
         </View>
       </TouchableOpacity>
-    </Swipeout>
+    </SwipeCustom>
   );
 };
-export default TagTeacher;
+export default TagUser2;
 const styles = StyleSheet.create({
   tag: {
     marginHorizontal: 5,

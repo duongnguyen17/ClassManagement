@@ -12,7 +12,9 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import TableStudent from '../components/table/TableStudent';
 import {getAllStudents, nghiHoc} from '../realm';
+import {useIsFocused} from '@react-navigation/native';
 const Attendance = props => {
+  const isFocused = useIsFocused();
   const [students, setStudents] = useState([]);
   //tìm kiếm
   const [searchResult, setSearchResult] = useState([]);
@@ -23,8 +25,8 @@ const Attendance = props => {
   //console.log(`date`, date);
   //console.log(`isShow`, isShow);
   useEffect(() => {
-    m_getAllStudents();
-  }, []);
+    if (isFocused) m_getAllStudents();
+  }, [isFocused]);
   //tìm kiếm học sinh
   useEffect(() => {
     if (searchInput == '') {
@@ -40,6 +42,7 @@ const Attendance = props => {
     let allStudents = await getAllStudents(props.classId);
     //console.log(`allStudents`, allStudents);
     setStudents(allStudents);
+    setSearchResult(allStudents);
   };
   const findName = strSearch => {
     let result = [];
@@ -71,17 +74,18 @@ const Attendance = props => {
           }}
           activeOpacity={0.9}
           style={{
-            marginHorizontal: 20,
+            marginHorizontal: 10,
             justifyContent: 'center',
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
               height: 2,
             },
+            borderRadius: 8,
+            backgroundColor: '#fff',
             shadowOpacity: 0.25,
-            shadowRadius: 4,
-            elevation: 2,
-            borderRadius: 5,
+            shadowRadius: 1,
+            elevation: 3,
           }}>
           <View
             style={{
@@ -98,37 +102,46 @@ const Attendance = props => {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={{marginBottom: 0}}>
-        <TextInput
-          style={{
-            borderBottomWidth: 0.5,
-            borderBottomColor: 'black',
-            marginHorizontal: 20,
-          }}
-          placeholder={'Nhập tên hoặc SĐT của học sinh'}
-          onChangeText={text => {
-            setSearchInput(text);
-          }}
-        />
-      </View>
-      <TableStudent students={searchResult} nghiHoc={m_nghiHoc} date={date} />
-      {isShow ? (
-        <RNDateTimePicker
-          mode={'date'}
-          value={date}
-          onChange={
-            //console.log(`date`, date);
-            // console.log(
-            //   `date.nativeEvent.timestamp`,
-            //   typeof date.nativeEvent.timestamp,
-            // );
+      <View
+        style={{
+          backgroundColor: '#fff',
+          marginHorizontal: 10,
+          marginTop: 10,
+          flex: 1,
+        }}>
+        <View style={{marginBottom: 0}}>
+          <TextInput
+            style={{
+              borderBottomWidth: 0.5,
+              borderBottomColor: 'black',
+              marginHorizontal: 20,
+              color: '#000',
+            }}
+            placeholder={'Nhập tên hoặc SĐT của học sinh'}
+            onChangeText={text => {
+              setSearchInput(text);
+            }}
+          />
+        </View>
+        <TableStudent students={searchResult} nghiHoc={m_nghiHoc} date={date} />
+        {isShow ? (
+          <RNDateTimePicker
+            mode={'date'}
+            value={date}
+            onChange={
+              //console.log(`date`, date);
+              // console.log(
+              //   `date.nativeEvent.timestamp`,
+              //   typeof date.nativeEvent.timestamp,
+              // );
 
-            // let newDate = date.nativeEvent.timestamp;
-            // setDate(newDate);
-            setNewDate
-          }
-        />
-      ) : null}
+              // let newDate = date.nativeEvent.timestamp;
+              // setDate(newDate);
+              setNewDate
+            }
+          />
+        ) : null}
+      </View>
     </View>
   );
 };

@@ -10,7 +10,7 @@ const TagName = props => {
   const [stateStudent, setStateStudent] = useState(null);
   useEffect(() => {
     getState();
-  }, []);
+  }, [date]);
   //lấy trạng thái ngày đó
   const getState = () => {
     let state = STATE_STUDENT.HOC;

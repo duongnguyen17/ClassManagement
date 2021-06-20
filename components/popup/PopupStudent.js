@@ -90,7 +90,7 @@ const PopupStudent = props => {
             </View>
             <View>
               <TextInput
-                style={{fontWeight: '600', fontSize: 18}}
+                style={{fontWeight: '600', fontSize: 18, color: '#000'}}
                 //defaultValue={dataEdit.name}
                 value={name}
                 style={{
@@ -138,7 +138,7 @@ const PopupStudent = props => {
             </View>
             <View>
               <TextInput
-                style={{fontWeight: '600', fontSize: 18}}
+                style={{fontWeight: '600', fontSize: 18, color: '#000'}}
                 //defaultValue={dataEdit.phoneNumber}
                 value={phoneNumber}
                 style={{

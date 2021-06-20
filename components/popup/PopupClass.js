@@ -12,7 +12,7 @@ const PopupClass = props => {
 
   const [name, setName] = useState(dataEdit.name);
   const [year, setYear] = useState(dataEdit.year);
-  const [teacher, setTeacher] = useState(dataEdit.teacher);//tên giáo viên
+  const [teacher, setTeacher] = useState(dataEdit.teacher); //tên giáo viên
 
   return (
     <Dialog
@@ -55,7 +55,7 @@ const PopupClass = props => {
           </View>
           <View>
             <TextInput
-              style={{fontWeight: '600', fontSize: 18}}
+              style={{fontWeight: '600', fontSize: 18, color: '#000'}}
               //defaultValue={dataEdit.name}
               value={name}
               style={{
@@ -78,7 +78,7 @@ const PopupClass = props => {
           </View>
           <View>
             <TextInput
-              style={{fontWeight: '600', fontSize: 18}}
+              style={{fontWeight: '600', fontSize: 18, color: '#000'}}
               //defaultValue={dataEdit.phoneNumber}
               value={year}
               style={{
@@ -101,7 +101,7 @@ const PopupClass = props => {
           </View>
           <View>
             <TextInput
-              style={{fontWeight: '600', fontSize: 18}}
+              style={{fontWeight: '600', fontSize: 18, color: '#000'}}
               //defaultValue={dataEdit.phoneNumber}
               value={teacher}
               style={{

@@ -9,7 +9,9 @@ import {
 import TableSchedule from '../components/table/TableSchedule';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {getSchedule} from '../realm';
+import {useIsFocused} from '@react-navigation/native';
 const Schedule = props => {
+  const isFocused = useIsFocused();
   const [schedule, setSchedule] = useState({_id: 1, days: []});
   //console.log(`schedule`, schedule);
   // const [isEdit, setIsEdit] = useState(false);
@@ -18,10 +20,11 @@ const Schedule = props => {
   //   scrollView.current.scrollTo({x: 0, y: 60, animated: true});
   // }, []);
   useEffect(() => {
-    m_getSchedule();
-  }, []);
+    if (isFocused) m_getSchedule();
+  }, [isFocused]);
   const m_getSchedule = async () => {
     let scheduleTemp = await getSchedule(props.classId);
+    console.log(`scheduleTemp`, scheduleTemp);
     setSchedule(scheduleTemp);
   };
 

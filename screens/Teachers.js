@@ -5,22 +5,23 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-
+import {useIsFocused} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PopupTeacher from '../components/popup/PopupTeacher';
 import {getAllTeacher, addTeacher, deleteTeacher, editTeacher} from '../realm';
 import ReAskPopup from '../components/popup/ReAskPopup';
-import TagUser from '../components/tag/TagUser';
+import TagUser2 from '../components/tag/TagUser';
 
 const Teachers = props => {
+  const isFocused = useIsFocused();
   const [isEdit, setIsEdit] = useState(false);
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowAsk, setIsShowAsk] = useState(false);
   const [dataEdit, setDataEdit] = useState({});
   const [teachers, setTeachers] = useState([]);
   useEffect(() => {
-    getTeachers();
-  }, []);
+    if (isFocused) getTeachers();
+  }, [isFocused]);
 
   //lấy danh sách các giáo viên
   const getTeachers = async () => {
@@ -67,7 +68,7 @@ const Teachers = props => {
         style={{marginVertical: 10, flex: 1}}
         data={teachers}
         renderItem={({item, index}) => (
-          <TagUser
+          <TagUser2
             position={'teacher'}
             userInfor={item}
             itemIndex={index}

@@ -167,6 +167,7 @@ const TableSchedule = ({day}) => {
                         onChangeText={text => {
                           subMorning[index].name = text;
                         }}
+                        style={{color: '#000'}}
                       />
                       {/* <TextInput
                         placeholder="Nhập tên giáo viên"
@@ -260,6 +261,7 @@ const TableSchedule = ({day}) => {
                       <TextInput
                         placeholder="Nhập tên môn học"
                         defaultValue={value.name}
+                        style={{ color: '#000'}}
                       />
                       {/* <TextInput
                         placeholder="Nhập tên giáo viên"

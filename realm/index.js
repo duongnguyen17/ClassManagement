@@ -213,7 +213,7 @@ export const getAllClass = async () => {
 //add Class
 export const addClass = async newClass => {
   try {
-    let isHas = false;
+    let isHas = false; //có giáo viên chưa
     const realm = await Realm.open(configureRealm);
     let allTeacher = realm.objects(SCHEMA.TEACHER);
     //console.log(`allTeacher`, allTeacher);
@@ -230,56 +230,57 @@ export const addClass = async newClass => {
         phoneNumber: '',
         avatar: '',
       };
-      let newSchedule = {
-        _id: newClass._id,
-        days: [
-          {
-            _id: newClass._id >> 2,
-            name: 'Thứ 2',
-            subMorning: [],
-            subAfternoon: [],
-          },
-          {
-            _id: newClass._id >> 3,
-            name: 'Thứ 3',
-            subMorning: [],
-            subAfternoon: [],
-          },
-          {
-            _id: newClass._id >> 4,
-            name: 'Thứ 4',
-            subMorning: [],
-            subAfternoon: [],
-          },
-          {
-            _id: newClass._id >> 5,
-            name: 'Thứ 5',
-            subMorning: [],
-            subAfternoon: [],
-          },
-          {
-            _id: newClass._id >> 6,
-            name: 'Thứ 6',
-            subMorning: [],
-            subAfternoon: [],
-          },
-          {
-            _id: newClass._id >> 7,
-            name: 'Thứ 7',
-            subMorning: [],
-            subAfternoon: [],
-          },
-          {
-            _id: newClass._id >> 8,
-            name: 'Chủ Nhật',
-            subMorning: [],
-            subAfternoon: [],
-          },
-        ],
-      };
+
       newClass.teacher = newTeacher;
-      newClass.schedule = newSchedule;
     }
+    let newSchedule = {
+      _id: newClass._id,
+      days: [
+        {
+          _id: newClass._id >> 2,
+          name: 'Thứ 2',
+          subMorning: [],
+          subAfternoon: [],
+        },
+        {
+          _id: newClass._id >> 3,
+          name: 'Thứ 3',
+          subMorning: [],
+          subAfternoon: [],
+        },
+        {
+          _id: newClass._id >> 4,
+          name: 'Thứ 4',
+          subMorning: [],
+          subAfternoon: [],
+        },
+        {
+          _id: newClass._id >> 5,
+          name: 'Thứ 5',
+          subMorning: [],
+          subAfternoon: [],
+        },
+        {
+          _id: newClass._id >> 6,
+          name: 'Thứ 6',
+          subMorning: [],
+          subAfternoon: [],
+        },
+        {
+          _id: newClass._id >> 7,
+          name: 'Thứ 7',
+          subMorning: [],
+          subAfternoon: [],
+        },
+        {
+          _id: newClass._id >> 8,
+          name: 'Chủ Nhật',
+          subMorning: [],
+          subAfternoon: [],
+        },
+      ],
+    };
+    newClass.schedule = newSchedule;
     //console.log(`newClass`, newClass);
     realm.write(() => {
       realm.create(SCHEMA.CLASS, newClass);
@@ -340,6 +341,7 @@ export const getClass = async classId => {
 export const getSchedule = async classId => {
   const realm = await Realm.open(configureRealm);
   let classInfor = realm.objectForPrimaryKey(SCHEMA.CLASS, classId);
+  //console.log(`classInfor`, classInfor);
   return classInfor.schedule;
 };
 //getAllStudents
@@ -488,6 +490,19 @@ export const changeDaySchedule = async newDaySchedule => {
       daySchedule.subMorning = newDaySchedule.subMorning;
       daySchedule.subAfternoon = newDaySchedule.subAfternoon;
     });
+  } catch (error) {
+    switch (error) {
+      default:
+        console.log(error.message);
+    }
+  }
+};
+
+//get all subject of a class
+export const getAllSubject = async () => {
+  try {
+    const realm = await Realm.open(configureRealm);
+    let allSubject = realm.objects(SCHEMA.SUBJECT).filter((value, index) => {});
   } catch (error) {
     switch (error) {
       default:

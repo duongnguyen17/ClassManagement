@@ -1,29 +1,18 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Image, Text} from 'react-native';
-import Swipeout from 'react-native-swipeout';
+import SwipeCustom from './SwipeCustom';
+
 const TagClass = props => {
   const {classData, onPressItem, editClass, deleteClass} = props;
-  //console.log(`classData`, classData);
-  //console.log(`classData.teacher`, classData.teacher);
+
   return (
-    <Swipeout
-      right={[
-        {
-          text: 'Edit',
-          onPress: () => {
-            //console.log(`classData`, classData);
-            editClass(classData);
-          },
-        },
-        {
-          text: 'Delete',
-          onPress: () => {
-            deleteClass(classData);
-          },
-        },
-      ]}
-      autoClose={true}
-      style={{backgroundColor: '#f2f2f2'}}>
+    <SwipeCustom
+      edit={() => {
+        editClass(classData);
+      }}
+      delete={() => {
+        deleteClass(classData);
+      }}>
       <TouchableOpacity
         activeOpacity={0.8}
         style={[styles.tag]}
@@ -86,7 +75,7 @@ const TagClass = props => {
           </View>
         </View>
       </TouchableOpacity>
-    </Swipeout>
+    </SwipeCustom>
   );
 };
 export default TagClass;

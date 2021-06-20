@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Image, Text} from 'react-native';
 import SwipeCustom from './SwipeCustom';
 
-const TagUser2 = props => {
+const TagUser = props => {
   const {position, userInfor, onPressItem, editUser, deleteUser} = props;
   return (
     <SwipeCustom
@@ -86,7 +86,7 @@ const TagUser2 = props => {
     </SwipeCustom>
   );
 };
-export default TagUser2;
+export default TagUser;
 const styles = StyleSheet.create({
   tag: {
     marginHorizontal: 5,

@@ -27,8 +27,10 @@ const PopupClass = props => {
     setName(dataEdit.name);
     setYear(dataEdit.year);
     setTeacher(dataEdit.teacher._id);
-    setItems(props.items);
   }, [dataEdit]);
+  useEffect(() => {
+    setItems(props.items);
+  }, [props.items]);
   const submit = () => {
     if (!name) {
       Alert.alert('Tên lớp không đúng!', 'Không được bỏ trống tên lớp.', [

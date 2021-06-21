@@ -38,6 +38,7 @@ const Classes = props => {
     }
   }, [isFocused]);
   useEffect(() => {
+    // console.log('object')
     setItems(x => [
       ...teachers.map((value, index) => ({
         label: value.name,
@@ -99,7 +100,7 @@ const Classes = props => {
   const gotoClass = (classId, className) => {
     props.navigation.navigate('Class', {_id: classId, name: className});
   };
-  //console.log(`items1`, items);
+  // console.log(`items1`, items);
   return (
     <SafeAreaView style={{flex: 1}}>
       <FlatList

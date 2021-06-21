@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'gray',
   },
-  tag: {flexDirection: 'row', width: SCREEN_WIDTH - 70},
+  tag: {flexDirection: 'row', width: SCREEN_WIDTH - 80},
   subjectText: {
     marginVertical: 10,
     fontWeight: 'bold',

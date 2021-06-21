@@ -46,7 +46,7 @@ const TagUser = ({position, userInfor, onPressItem, editUser, deleteUser}) => {
         <View
           style={{
             flex: 1,
-            marginHorizontal: 25,
+            marginHorizontal: 15,
             marginVertical: 10,
             flexDirection: 'column',
           }}>
@@ -55,14 +55,15 @@ const TagUser = ({position, userInfor, onPressItem, editUser, deleteUser}) => {
               flexDirection: 'row',
               alignItems: 'center',
               marginVertical: 5,
-              justifyContent: 'space-between',
               overflow: 'hidden',
             }}>
-            <View>
+            <View style={styles.temp}>
               <Text style={{fontWeight: '600'}}>Họ tên: </Text>
             </View>
             <Text style={{fontWeight: '600', fontSize: 18}} numberOfLines={1}>
-              {userInfor.name}
+              {userInfor.name.length > 20
+                ? userInfor.name.slice(0, 20) + '...'
+                : userInfor.name}
             </Text>
           </View>
           <View
@@ -70,9 +71,8 @@ const TagUser = ({position, userInfor, onPressItem, editUser, deleteUser}) => {
               flexDirection: 'row',
               alignItems: 'center',
               marginVertical: 5,
-              justifyContent: 'space-between',
             }}>
-            <View>
+            <View style={styles.temp}>
               <Text style={{fontWeight: '600'}}>SĐT: </Text>
             </View>
             <View>
@@ -102,4 +102,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 1,
   },
+  temp: {width: 55},
 });

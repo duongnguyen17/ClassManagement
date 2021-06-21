@@ -37,13 +37,17 @@ const TableScheduleTemp = ({day}) => {
   //delete sub
   const deleteSub = (session, index) => {
     if (session == SESSION.MORNING) {
-      let temp = subMorning;
-      temp.splice(index, 1);
-      setSubMorning(temp);
+      // let temp = subMorning;
+      // temp.splice(index, 1);
+      setSubMorning(x => {
+        x.splice(index, 1);
+        return x;
+      });
     } else {
-      let temp = subAfternoon;
-      temp.splice(index, 1);
-      setSubAfternoon(temp);
+      setSubAfternoon(x => {
+        x.splice(index, 1);
+        return x;
+      });
     }
   };
   return (
@@ -261,7 +265,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   sessionColumn: {
-    width: 50,
+    width: 60,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 0.5,

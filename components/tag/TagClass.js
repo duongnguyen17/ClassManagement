@@ -4,7 +4,7 @@ import SwipeCustom from './SwipeCustom';
 
 const TagClass = props => {
   const {classData, onPressItem, editClass, deleteClass} = props;
-
+  // console.log(`classData`, classData);
   return (
     <SwipeCustom
       edit={() => {
@@ -30,15 +30,16 @@ const TagClass = props => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                width: '40%',
+                flex: 1,
                 marginVertical: 5,
-                justifyContent: 'space-between',
               }}>
-              <View>
+              <View style={styles.temp}>
                 <Text style={{fontWeight: '600'}}>Lớp: </Text>
               </View>
               <Text style={{fontWeight: '600', fontSize: 18}}>
-                {classData.name}
+                {classData.name.length > 20
+                  ? classData.name.slice(0, 20) + '...'
+                  : classData.name}
               </Text>
             </View>
             <View
@@ -47,7 +48,7 @@ const TagClass = props => {
                 alignItems: 'center',
                 marginVertical: 5,
               }}>
-              <View>
+              <View style={styles.temp}>
                 <Text style={{fontWeight: '600'}}>Sĩ số: </Text>
               </View>
               <Text style={{fontWeight: '600', fontSize: 18}}>
@@ -59,8 +60,6 @@ const TagClass = props => {
           <View
             style={{
               flexDirection: 'row',
-              width: '60%',
-              justifyContent: 'space-between',
             }}>
             <View
               style={{
@@ -69,7 +68,7 @@ const TagClass = props => {
                 marginVertical: 5,
                 justifyContent: 'space-between',
               }}>
-              <View>
+              <View style={styles.temp}>
                 <Text style={{fontWeight: '600'}}>Khoá: </Text>
               </View>
               <View>
@@ -80,6 +79,7 @@ const TagClass = props => {
             </View>
             <View
               style={{
+                marginLeft: 20,
                 flexDirection: 'row',
                 alignItems: 'center',
                 marginVertical: 5,
@@ -117,5 +117,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 1,
+  },
+  temp: {
+    width: 55,
   },
 });

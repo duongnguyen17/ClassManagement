@@ -37,8 +37,6 @@ const TableScheduleTemp = ({day}) => {
   //delete sub
   const deleteSub = (session, index) => {
     if (session == SESSION.MORNING) {
-      // let temp = subMorning;
-      // temp.splice(index, 1);
       setSubMorning(x => {
         x.splice(index, 1);
         return x;

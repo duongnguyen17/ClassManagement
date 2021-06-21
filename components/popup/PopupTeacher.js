@@ -46,7 +46,6 @@ const PopupTeacher = ({
     });
   };
   const checkphonenumber = phonenumber => {
-    if (!phonenumber) return true;
     if (
       phonenumber.length !== 10 ||
       phonenumber[0] !== '0' ||
